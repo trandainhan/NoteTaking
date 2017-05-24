@@ -7,6 +7,10 @@ import { initStore } from '../store'
 import SplitView from '../components/SplitView'
 import NotePreview from '../components/NotePreview'
 import NoteBook from '../components/NoteBook'
+import NoteView from '../components/NoteView'
+import List from '../components/List'
+
+import { values } from 'lodash-fp'
 
 class MyPage extends Component {
   render () {
@@ -20,8 +24,8 @@ class MyPage extends Component {
         <SplitView>
           <List>
             {
-              noteBooks.map((noteBook) => (
-                <NoteBook notes={noteBook.notes} />
+              values(noteBooks).map((noteBook) => (
+                <NoteBook key={noteBook.id} {...noteBook} />
               ))
             }
           </List>
@@ -40,4 +44,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRedux(initStore, mapStateToProps)(Mypage)
+export default withRedux(initStore, mapStateToProps)(MyPage)

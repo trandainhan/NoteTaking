@@ -1,11 +1,24 @@
 import React, { Component } from 'react'
-import Editor from './components/Editor'
+import { connect } from 'react-redux'
+import Editor from './Editor'
 
-export default class NoteView extends Component {
+class NoteView extends Component {
 
   render() {
+    const { title, content } = this.props.note
     return (
-      
+      <div>
+        <h3>{title}</h3>
+        <Editor editorState={content} />
+      </div>
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // udpate note, selectedNote
+  }
+}
+
+export default connect(null, mapDispatchToProps)(NoteView)
