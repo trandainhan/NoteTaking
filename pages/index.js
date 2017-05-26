@@ -25,7 +25,7 @@ class MyPage extends Component {
           <List>
             {
               values(noteBooks).map((noteBook) => (
-                <NoteBook key={noteBook.id} {...noteBook} />
+                <NoteBook key={noteBook.id} noteBook={noteBook} />
               ))
             }
           </List>
@@ -36,11 +36,15 @@ class MyPage extends Component {
   }
 }
 
+const getSelectedNote = (state, noteId) => {
+  return state.notes[noteId]
+}
+
 const mapStateToProps = (state) => {
-  const { noteBooks, selectedNote } = state
+  const { noteBooks, selectedNoteId } = state
   return {
     noteBooks,
-    selectedNote
+    selectedNote: getSelectedNote(state, selectedNoteId)
   }
 }
 

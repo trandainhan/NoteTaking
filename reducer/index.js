@@ -1,40 +1,55 @@
+import { SELECT_NOTE } from '../action'
+import { uniqueId } from 'lodash-fp'
+
 const initState = {
   noteBooks: {
-    'noteBook-1': { // noteBook
-      id: 'noteBook-1',
-      name: 'sdfsdf',
-      notes: {
-        note1: { // note
-          id: 'note1',
-          title: 'Nhan',
-          createdDate: 'Today',
-          content: 'Bla blaa'
-        },
-        note2: { // note
-          id: 'note2',
-          title: 'Nhan 2',
-          createdDate: 'Yesterday',
-          content: 'Bla blaa bla'
-        }
-      }, // notes
+    123: {
+      id: '123',
+      name: 'English',
+      notes: [ '211', '222' ]
     },
-
-    'noteBook-2': { // noteBook
-      name: 'noteBook-2',
-      notes: {
-      }
+    111: {
+      id: '111',
+      name: 'Others',
+      notes: ['223']
     }
   },
-  selectedNote: {
-    id: 'note2',
-    title: 'Nhan 2',
-    createdDate: 'Yesterday',
-    content: 'Bla bla bla'
-  }
+  notes: {
+    211: {
+      id: '211',
+      title: 'Nhan',
+      createdDate: 'Today',
+      content: 'This is note 1',
+      book_id: '123'
+    },
+    222: {
+      id: '222',
+      title: 'Nhan 2',
+      createdDate: 'Yesterday',
+      content: 'This is note 2',
+      book_id: '123'
+    },
+    223: {
+      id: '223',
+      title: 'Nhan 3',
+      createdDate: 'Yesterday',
+      content: 'This is note 3',
+      book_id: '111'
+    }
+  },
+  selectedNoteId: '223'
 }
 
 const reducer = (state = initState, action) => {
-  return state
+  switch(action.type) {
+    case SELECT_NOTE:
+      return {
+        ...state,
+        selectedNoteId: action.noteId
+      }
+    default:
+      return state
+  }
 }
 
 export default reducer

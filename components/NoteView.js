@@ -18,6 +18,7 @@ class NoteView extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     // udpate note, selectedNote
+
   }
 }
 

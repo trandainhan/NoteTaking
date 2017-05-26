@@ -3,10 +3,13 @@ import Head from 'next/head'
 import { connect } from 'react-redux'
 import { selectNote } from '../action'
 
-class NotePreview extends Component {
-  constructor(props) {
-    super(props)
+const styles = {
+  noteContentPreview: {
+    height: '50px'
   }
+}
+
+class NotePreview extends Component {
   render () {
     const { title, createdDate, content } = this.props.note
     return (
@@ -21,14 +24,13 @@ class NotePreview extends Component {
   }
 }
 
-const styles = {
-  noteContentPreview: {
-    height: '50px'
+const mapDispatchToProps = (dispatch, { note }) => {
+  return {
+    setSelectedNote: (e) => {
+      dispatch(selectNote(note.id))
+    },
+    note
   }
-}
-
-  const mapDispatchToProps = (dispatch, { note }) => {
-  setSelectedNote: dispatch(selectNote(note))
 }
 
 
