@@ -2,24 +2,32 @@ import React, { Component } from 'react'
 
 export default class SplitView extends Component {
   render() {
-    const {children, className } = this.props
+    const {children, className, leftWidth, rightWidth } = this.props
     if (children.length === 0) {
       return null
     }
     const leftChild = children[0]
     const rightChild = children[1]
     const clazzName = 'split-view ' + className
+    const leftViewStyle = leftWidth ? {
+      ...styles.leftView,
+      width: leftWidth
+    } : styles.leftView
+    const rightViewStyle = rightWidth ? {
+      ...styles.rightView,
+      width: rightWidth
+    } : styles.rightView
     return (
       <div className={clazzName}>
         {
           leftChild &&
-          <div style={styles.leftView}>
+          <div style={leftViewStyle}>
             {leftChild}
           </div>
         }
         {
           rightChild &&
-          <div style={styles.rightView}>
+          <div style={rightViewStyle}>
             {rightChild}
           </div>
         }
@@ -31,10 +39,13 @@ export default class SplitView extends Component {
 const styles = {
   leftView: {
     width: '50%',
-    float: 'left'
+    float: 'left',
+    borderRight: 'solid 1px black',
+    minWidth: '250px'
   },
   rightView: {
     width: '50%',
-    float: 'left'
+    float: 'left',
+    paddingLeft: '10px'
   }
 }

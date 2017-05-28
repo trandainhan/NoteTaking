@@ -8,7 +8,7 @@ class NoteBook extends Component {
     const { notes, noteBook } = this.props
     return (
       <div>
-        <h3>{noteBook.name}</h3>
+        <h3 style={styles.title}>{noteBook.name}</h3>
         {
           values(notes).map((note) => (
             <NotePreview key={note.id} note={note} />
@@ -16,6 +16,12 @@ class NoteBook extends Component {
         }
       </div>
     )
+  }
+}
+
+const styles = {
+  title: {
+    borderBottom: 'solid 1px black'
   }
 }
 

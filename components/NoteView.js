@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { updateNote } from '../action'
 import Editor from './Editor'
 
 class NoteView extends Component {
@@ -9,16 +10,22 @@ class NoteView extends Component {
     return (
       <div>
         <h3>{title}</h3>
-        <Editor editorState={content} />
+        <Editor editorState={content} onChange={this.props.updateNoteContent} />
       </div>
     )
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, { note }) => {
   return {
-    // udpate note, selectedNote
-
+    updateNoteContent: (newState) => {
+      const updatedNote = {
+        ...note,
+        content: newState.getCurrentContent().getPlainText()
+      }
+      dispatch(updateNote(updatedNote, note.id))
+    },
+    note
   }
 }
 

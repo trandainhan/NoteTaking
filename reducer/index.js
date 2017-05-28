@@ -1,55 +1,37 @@
 import { SELECT_NOTE } from '../action'
 import { uniqueId } from 'lodash-fp'
+import { combineReducers } from 'redux'
 
-const initState = {
-  noteBooks: {
-    123: {
-      id: '123',
-      name: 'English',
-      notes: [ '211', '222' ]
-    },
-    111: {
-      id: '111',
-      name: 'Others',
-      notes: ['223']
-    }
+import notes from './notes'
+
+const initNoteBooksState = {
+  123: {
+    id: '123',
+    name: 'English',
+    notes: [ '211', '222' ]
   },
-  notes: {
-    211: {
-      id: '211',
-      title: 'Nhan',
-      createdDate: 'Today',
-      content: 'This is note 1',
-      book_id: '123'
-    },
-    222: {
-      id: '222',
-      title: 'Nhan 2',
-      createdDate: 'Yesterday',
-      content: 'This is note 2',
-      book_id: '123'
-    },
-    223: {
-      id: '223',
-      title: 'Nhan 3',
-      createdDate: 'Yesterday',
-      content: 'This is note 3',
-      book_id: '111'
-    }
-  },
-  selectedNoteId: '223'
+  111: {
+    id: '111',
+    name: 'Others',
+    notes: ['223']
+  }
 }
 
-const reducer = (state = initState, action) => {
+const noteBooks = (state = initNoteBooksState, action) => {
+  return state
+}
+
+const selectedNoteId = (state = '223', action) => {
   switch(action.type) {
     case SELECT_NOTE:
-      return {
-        ...state,
-        selectedNoteId: action.noteId
-      }
+      return action.noteId
     default:
       return state
   }
 }
 
-export default reducer
+const rootReducer = combineReducers({
+  noteBooks, selectedNoteId, notes
+})
+
+export default rootReducer

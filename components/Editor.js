@@ -17,16 +17,16 @@ export default class Editor extends Component {
   _handleKeyCommand(command) {
     const newState = RichUtils.handleKeyCommand(this.state.editorState, command)
      if (newState) {
-       this.onChange(newState)
+       this.props.onChange(newState)
        return true
      }
      return false
   }
   _handleToggleBlock (blockType) {
-    this.onChange(RichUtils.toggleBlockType(this.editorState, blockType));
+    this.props.onChange(RichUtils.toggleBlockType(this.editorState, blockType));
   }
   _handtoggleInlineStyle (inlineStyle) {
-    this.onChange(RichUtils.toggleInlineStyle(this.editorState, inlineStyle));
+    this.props.onChange(RichUtils.toggleInlineStyle(this.editorState, inlineStyle));
   }
   componentDidMount () {
     this.refs.editor.focus()
@@ -50,7 +50,7 @@ export default class Editor extends Component {
           editorKey="editorKey"
           editorState={this.editorState}
           handleKeyCommand={this.handleKeyCommand}
-          onChange={this.onChange}
+          onChange={this.props.onChange}
         />
       </div>
     );

@@ -16,12 +16,12 @@ class MyPage extends Component {
   render () {
     const { noteBooks, selectedNote } = this.props
     return (
-      <div>
+      <div style={{margin: 20}}>
         <Head>
           <meta charset="utf-8" />
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
         </Head>
-        <SplitView>
+        <SplitView leftWidth={'20%'} rightWidth={'80%'}>
           <List>
             {
               values(noteBooks).map((noteBook) => (
@@ -43,7 +43,7 @@ const getSelectedNote = (state, noteId) => {
 const mapStateToProps = (state) => {
   const { noteBooks, selectedNoteId } = state
   return {
-    noteBooks,
+    noteBooks: noteBooks,
     selectedNote: getSelectedNote(state, selectedNoteId)
   }
 }
