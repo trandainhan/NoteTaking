@@ -1,11 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class List extends Component {
-  render() {
-    return (
-      <div className="list">
-        {this.props.children}
-      </div>
-    )
-  }
-}
+export default ({children}) => (
+  <div className='list'>
+    {children}
+  </div>
+)

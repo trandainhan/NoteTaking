@@ -1,40 +1,38 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class SplitView extends Component {
-  render() {
-    const {children, className, leftWidth, rightWidth } = this.props
-    if (children.length === 0) {
-      return null
-    }
-    const leftChild = children[0]
-    const rightChild = children[1]
-    const clazzName = 'split-view ' + className
-    const leftViewStyle = leftWidth ? {
-      ...styles.leftView,
-      width: leftWidth
-    } : styles.leftView
-    const rightViewStyle = rightWidth ? {
-      ...styles.rightView,
-      width: rightWidth
-    } : styles.rightView
-    return (
-      <div className={clazzName}>
-        {
-          leftChild &&
-          <div style={leftViewStyle}>
-            {leftChild}
-          </div>
-        }
-        {
-          rightChild &&
-          <div style={rightViewStyle}>
-            {rightChild}
-          </div>
-        }
-      </div>
-    )
+export default ({children, className, leftWidth, rightWidth}) => {
+  if (children.length === 0) {
+    return null
   }
+  const leftChild = children[0]
+  const rightChild = children[1]
+  const clazzName = 'split-view ' + className
+  const leftViewStyle = leftWidth ? {
+    ...styles.leftView,
+    width: leftWidth
+  } : styles.leftView
+  const rightViewStyle = rightWidth ? {
+    ...styles.rightView,
+    width: rightWidth
+  } : styles.rightView
+  return (
+    <div className={clazzName}>
+      {
+        leftChild &&
+        <div style={leftViewStyle}>
+          {leftChild}
+        </div>
+      }
+      {
+        rightChild &&
+        <div style={rightViewStyle}>
+          {rightChild}
+        </div>
+      }
+    </div>
+  )
 }
+
 
 const styles = {
   leftView: {

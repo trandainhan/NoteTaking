@@ -1,23 +1,18 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import NotePreview from './NotePreview'
 import { values } from 'lodash-fp'
 
-class NoteBook extends Component {
-  render() {
-    const { notes, noteBook } = this.props
-    return (
-      <div>
-        <h3 style={styles.title}>{noteBook.name}</h3>
-        {
-          values(notes).map((note) => (
-            <NotePreview key={note.id} note={note} />
-          ))
-        }
-      </div>
-    )
-  }
-}
+const NoteBook = ({notes, noteBook}) => (
+  <div>
+    <h3 style={styles.title}>{noteBook.name}</h3>
+    {
+      values(notes).map((note) => (
+        <NotePreview key={note.id} note={note} />
+      ))
+    }
+  </div>
+)
 
 const styles = {
   title: {

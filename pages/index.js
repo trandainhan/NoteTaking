@@ -5,10 +5,11 @@ import withRedux from 'next-redux-wrapper'
 import { initStore } from '../store'
 
 import SplitView from '../components/SplitView'
-import NotePreview from '../components/NotePreview'
-import NoteBook from '../components/NoteBook'
-import NoteView from '../components/NoteView'
 import List from '../components/List'
+
+import NotePreview from '../container/NotePreview'
+import NoteBook from '../container/NoteBook'
+import NoteView from '../container/NoteView'
 
 import { values } from 'lodash-fp'
 

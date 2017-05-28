@@ -1,20 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { updateNote } from '../action'
-import Editor from './Editor'
+import Editor from '../components/Editor'
 
-class NoteView extends Component {
-
-  render() {
-    const { title, content } = this.props.note
-    return (
-      <div>
-        <h3>{title}</h3>
-        <Editor editorState={content} onChange={this.props.updateNoteContent} />
-      </div>
-    )
-  }
-}
+const NoteView = ({title, content, updateNoteContent}) => (
+  <div>
+    <h3>{title}</h3>
+    <Editor editorState={content} onChange={updateNoteContent} />
+  </div>
+)
 
 const mapDispatchToProps = (dispatch, { note }) => {
   return {
@@ -25,7 +19,7 @@ const mapDispatchToProps = (dispatch, { note }) => {
       }
       dispatch(updateNote(updatedNote, note.id))
     },
-    note
+    ...note
   }
 }
 
