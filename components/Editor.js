@@ -7,50 +7,63 @@ import InlineStyleControls from './InlineStyleControls'
 export default class Editor extends Component {
   constructor(props) {
     super(props)
-    this.editorState = EditorState.createWithContent(ContentState.createFromText(props.editorState))
-      || EditorState.createEmpty()
-    this.onChange = editorState => this.setState({editorState})
+    this.state = { editorState: this.props.editorState}
     this.handleKeyCommand = (command) => this._handleKeyCommand(command)
     this.toggleBlockStyle = (style) => this._handleToggleBlock(style)
     this.toggleInlineStyle = (style) => this._handtoggleInlineStyle(style)
+    this.onChange = (editorState) => {
+      this.setState({
+        editorState: editorState
+      })
+      this.props.onChange(editorState)
+    }
   }
   _handleKeyCommand(command) {
     const newState = RichUtils.handleKeyCommand(this.state.editorState, command)
      if (newState) {
-       this.props.onChange(newState)
+       this.onChange(newState)
        return true
      }
      return false
   }
   _handleToggleBlock (blockType) {
-    this.props.onChange(RichUtils.toggleBlockType(this.editorState, blockType));
+    this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
   }
   _handtoggleInlineStyle (inlineStyle) {
-    this.props.onChange(RichUtils.toggleInlineStyle(this.editorState, inlineStyle));
+    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle));
   }
   componentDidMount () {
     this.refs.editor.focus()
   }
+  componentWillReceiveProps (nextProps) {
+    this.state = { editorState: nextProps.editorState}
+  }
   render() {
+    const editorState = this.state.editorState
     return (
       <div className="Editor-root">
         <Head>
           <link rel="stylesheet" href="/static/editor.css" />
         </Head>
         <BlockStyleControls
-          editorState={this.editorState}
+          editorState={editorState}
           onToggle={this.toggleBlockStyle}
         />
         <InlineStyleControls
-          editorState={this.editorState}
+          editorState={editorState}
           onToggle={this.toggleInlineStyle}
         />
         <DraftEditor
           ref='editor'
           editorKey="editorKey"
-          editorState={this.editorState}
+          editorState={
+            EditorState.acceptSelection(
+              editorState,
+              editorState.getSelection()
+            )
+          }
           handleKeyCommand={this.handleKeyCommand}
-          onChange={this.props.onChange}
+          onChange={this.onChange}
         />
       </div>
     );
