@@ -6,22 +6,23 @@ import { initStore } from '../store'
 
 import SplitView from '../components/SplitView'
 import List from '../components/List'
+import Header from '../components/Header'
 
 import NotePreview from '../container/NotePreview'
 import NoteBook from '../container/NoteBook'
 import NoteView from '../container/NoteView'
 
+import TopBar from '../components/TopBar'
+
 import { values } from 'lodash-fp'
 
-class MyPage extends Component {
+class IndexPage extends Component {
   render () {
     const { noteBooks, selectedNote } = this.props
     return (
       <div style={{margin: 20}}>
-        <Head>
-          <meta charset="utf-8" />
-          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        </Head>
+        <Header />
+        <TopBar />
         <SplitView leftWidth={'20%'} rightWidth={'80%'}>
           <List>
             {
@@ -49,4 +50,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRedux(initStore, mapStateToProps)(MyPage)
+export default withRedux(initStore, mapStateToProps)(IndexPage)

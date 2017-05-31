@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import NotePreview from './NotePreview'
-import { values } from 'lodash-fp'
+import { values } from 'lodash/fp'
 
 const NoteBook = ({notes, noteBook}) => (
   <div>

@@ -1,7 +1,5 @@
-import { UPDATE_NOTE } from '../action'
+import { UPDATE_NOTE, ADD_NEW_NOTE } from '../action'
 import { convertToRaw, ContentState } from 'draft-js'
-
-import { mapValues } from 'lodash-fp'
 
 const initState = {
   211: {
@@ -33,6 +31,12 @@ const notes = (state = initState, action) => {
       return {
         ...state,
         [action.noteId]: action.updatedNote
+      }
+    case ADD_NEW_NOTE:
+      debugger
+      return {
+        ...state,
+        [action.noteId]: action.note
       }
     default:
       return state

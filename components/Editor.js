@@ -7,7 +7,7 @@ import InlineStyleControls from './InlineStyleControls'
 export default class Editor extends Component {
   constructor(props) {
     super(props)
-    this.state = { editorState: this.props.editorState}
+    this.state = { editorState: this.props.editorState || EditorState.createEmpty() }
     this.handleKeyCommand = (command) => this._handleKeyCommand(command)
     this.toggleBlockStyle = (style) => this._handleToggleBlock(style)
     this.toggleInlineStyle = (style) => this._handtoggleInlineStyle(style)
@@ -36,7 +36,7 @@ export default class Editor extends Component {
     this.refs.editor.focus()
   }
   componentWillReceiveProps (nextProps) {
-    this.state = { editorState: nextProps.editorState}
+    this.state = { editorState: nextProps.editorState || EditorState.createEmpty()}
   }
   render() {
     const editorState = this.state.editorState

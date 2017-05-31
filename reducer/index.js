@@ -1,5 +1,4 @@
 import { SELECT_NOTE } from '../action'
-import { uniqueId } from 'lodash-fp'
 import { combineReducers } from 'redux'
 
 import notes from './notes'

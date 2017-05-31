@@ -39,7 +39,7 @@ const styles = {
     width: '50%',
     float: 'left',
     borderRight: 'solid 1px black',
-    minWidth: '250px'
+    minWidth: '200px'
   },
   rightView: {
     width: '50%',

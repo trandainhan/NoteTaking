@@ -1,9 +1,15 @@
+import { uniqueId } from 'lodash/fp'
+import { convertToRaw, ContentState } from 'draft-js'
+
 class Note {
   constructor(data) {
     data = data || {}
-    this.id = data.id
-    this.title = data.title
-    this.createdDate = data.createdDate
-    this.content = data.content
+    this.id = data.id || uniqueId('note_')
+    this.title = data.title || ''
+    this.createdDate = data.createdDate || new Date().toString()
+    this.content = data.content || convertToRaw(ContentState.createFromText('')),
+    this.book_id = data.book_id || ''
   }
 }
+
+export default Note
