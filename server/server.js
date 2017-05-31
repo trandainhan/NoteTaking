@@ -1,12 +1,11 @@
-require('babel-register')
-const express = require('express')
-const next = require('next')
-const mongoose = require('mongoose')
+import express from 'express'
+import next from 'next'
+import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
-const Note = require('./database/Note')
-const NoteBook = require('./database/NoteBook')
-const database = require('./config/database')
+import Note from '../database/Note'
+import NoteBook from '../database/NoteBook'
+import database from '../config/database'
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -19,7 +18,16 @@ app.prepare().then(() => {
   mongoose.connect(database.uri)
 
   server.get('/notebooks', (req, res) => {
-
+    const note = new Note({
+      title: 'nhan',
+      content: 'Hello',
+      boot_id: '11'
+    })
+    note.save()
+    
+    res.json({
+      test: "tran dai nhan"
+    })
   })
 
   server.post('/noteBooks', (req, res) => {
