@@ -7,8 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "next build",
     "start": "babel-node server/index.js --presets es2015,stage-3",
-    "debug": "babel-node-debug server/index.js",
-    "hotserver": "nodemon -w server/index.js server/index.js --exec babel-node"
+    "dev": "nodemon --watch server/ --debug server/index.js --exec babel-node"
   },
   "author": "",
   "license": "ISC",
