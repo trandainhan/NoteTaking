@@ -1,57 +1,100 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
+import Head from 'next/head'
 import withRedux from 'next-redux-wrapper'
-import { initStore } from '../store'
-import { convertFromRaw, EditorState } from 'draft-js'
+import { convertFromRaw, EditorState, convertToRaw } from 'draft-js'
 import fetch from 'axios';
+import Select from 'react-select'
 
 import Editor from '../components/Editor'
 import Header from '../components/Header'
 
 import Note from '../models/Note'
 
-import { addNewNote, updateNoteContent } from '../action'
+import { addNewNote, updateNote } from '../action'
 
 class NewNote extends Component {
-  static async getInitialProps () {
-    const res = await fetch.post('/note')
-    
+  constructor (props) {
+    super(props)
+    this.state = {
+      note: new Note(),
+      selectedNoteBookId: '',
+      noteBooks: []
+    }
+    this.updateNoteContent = (newContent) => this._updateNoteContent(newContent)
+    this.updateTitle = (e) => this._updateTitle(e.target.value)
+    this.saveNote = () => this._saveNote()
+    this.updateSelectedNoteBook = (value) => this._updateSelectedNoteBook(value)
+  }
+  _updateNoteContent (newContent) {
+    const { note } = this.state
+    note.content = convertToRaw(newContent.getCurrentContent())
+    this.setState({
+      note: note
+    })
+  }
+  async _saveNote () {
+    const { title, content } = this.state.note
+    const res = await fetch.post('/note', {
+      title: title,
+      content: content,
+      noteBookId: this.state.selectedNoteBookId
+    })
+  }
+  __updateSelectedNoteBook (value) {
+    this.setState({
+      selectedNoteBookId: value
+    })
+  }
+  _updateTitle (title) {
+    const { note } = this.state
+    note.title = title
+    this.setState({
+      note: note
+    })
+  }
+  _updateSelectedNoteBook (value) {
+    this.setState({
+      selectedNoteBookId: value
+    })
+  }
+  async componentDidMount () {
+    const res = await fetch.get('http://localhost:3000/notebook')
+    const noteBooks = res.data.map((noteBook) => {
+      return {
+        id: noteBook._id,
+        label: noteBook.title
+      }
+    })
+    this.setState({
+      noteBooks: noteBooks
+    })
   }
   render () {
-    const { title, content } = this.props.note || {}
+    const { noteBooks, selectedNoteBookId, note } = this.state
+    const { title, content } = note
     return (
       <div>
         <Header />
+        <Head>
+          <link rel="stylesheet" href="https://unpkg.com/react-select/dist/react-select.css" />
+        </Head>
         <Link href='/'><button className='btn btn-primary'>Back</button></Link>
-        <input className='form-control' value={title} />
-        <Editor onChange={updateNoteContent} />
+        <Select
+          name="form-field-name"
+          options={noteBooks}
+          value={selectedNoteBookId}
+          onChange={this.updateSelectedNoteBook}
+        />
+        <input className='form-control' value={title} onChange={this.updateTitle} />
+        <Editor
+          editorState={EditorState.createWithContent(convertFromRaw(content))}
+          onChange={this.updateNoteContent}
+        />
+        <button onClick={this.saveNote} className='form-control'>Save</button>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { query } = ownProps.url
-  debugger
-  return {
-    note: state.notes[query.id],
-  }
-}
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const { note } = stateProps
-  const { dispatch }  = dispatchProps
-  return {
-    note,
-    updateNoteContent: (newContent) => {
-      const updatedNote = {
-        ...note,
-        content: convertToRaw(newContent.getCurrentContent())
-      }
-      dispatch(updateNote(updatedNote, note.id))
-    },
-    ...ownProps
-  }
-}
-
-export default withRedux(initStore, mapStateToProps, null, mergeProps)(NewNote)
+export default NewNote
