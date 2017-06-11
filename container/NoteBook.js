@@ -5,7 +5,7 @@ import { values } from 'lodash/fp'
 
 const NoteBook = ({notes, noteBook}) => (
   <div>
-    <h3 style={styles.title}>{noteBook.name}</h3>
+    <h3 style={styles.title}>{noteBook.title}</h3>
     {
       values(notes).map((note) => (
         <NotePreview key={note.id} note={note} />
