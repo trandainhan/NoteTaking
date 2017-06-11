@@ -6,5 +6,5 @@ const Schema = mongoose.Schema
 export default mongoose.model('Note', new Schema({
     title: String,
     content: String,
-    book_id: String
+    noteBookId: String
 }));
