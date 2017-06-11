@@ -22,28 +22,31 @@ app.prepare().then(() => {
   // Connect to database
   mongoose.connect(database.uri)
 
-  server.get('/notebooks', (req, res) => {
-    NoteBook.find({}, (err, notebooks) => {
+  server.get('/notebook', (req, res) => {
+    NoteBook.find().lean().exec((err, noteBooks) => {
       if (err) {
         console.log('Something wrong in /notebooks')
         res.status(500).send('Something broke!')
       }
-      res.json(notebooks)
+      res.json(noteBooks)
     })
   })
 
-  server.post('/noteBooks', (req, res) => {
-    const { title } = req.body // ?
+  server.post('/notebook', (req, res) => {
+    const { title } = req.body || {} // ?
     const noteBook = new NoteBook({
       title: title || 'Untitle'
     })
-    noteBook.save().then((note) => {
-      res.status(200).send('Save successfully')
+
+    noteBook.save().then((noteBook) => {
+      res.status(200).json({
+        id: noteBook.id,
+        title: noteBook.title
+      })
     })
   })
 
   server.post('/note', (req, res) => {
-    console.log(req.body)
     const note = new Note({
       title: '',
       content: '',
@@ -59,8 +62,8 @@ app.prepare().then(() => {
     return handle(req, res)
   })
 
-  server.listen(4000, (err) => {
+  server.listen(3000, (err) => {
     if (err) throw err
-    console.log('> Ready on http://localhost:4000')
+    console.log('> Ready on http://localhost:3000')
   })
 })
