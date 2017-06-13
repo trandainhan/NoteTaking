@@ -36,9 +36,8 @@ export default class Editor extends Component {
     this.refs.editor.focus()
   }
   componentWillReceiveProps (nextProps) {
-    this.setState({
-      editorState: nextProps.editorState || EditorState.createEmpty()
-    })
+    // Just assign it instead of setState
+    this.state = { editorState: nextProps.editorState || EditorState.createEmpty() }
   }
   render() {
     const { editorState } = this.state
