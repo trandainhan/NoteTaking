@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React, { Component } from 'react'
 import withRedux from 'next-redux-wrapper'
 import fetch from 'axios'
-import { values } from 'lodash-fp'
+import { values, isEmpty } from 'lodash-fp'
 
 import { initStore } from '../store'
 import SplitView from '../components/SplitView'
@@ -31,7 +31,7 @@ class IndexPage extends Component {
         <SplitView leftWidth={'20%'} rightWidth={'80%'}>
           <List>
             {
-              values(noteBooks).map((noteBook) => (
+              isEmpty(noteBooks) ? "No NoteBook Yet" : values(noteBooks).map((noteBook) => (
                 <NoteBook key={noteBook.id} noteBook={noteBook} />
               ))
             }

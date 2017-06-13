@@ -5,14 +5,23 @@ import Link from 'next/link'
 import { addNewNote } from '../action'
 
 const TopBar = ({handler}) => (
-  <div>
+  <div style={styles.topBar} >
     <Link prefetch href='/newbook'>
-      <button className='btn btn-primary'>Add New Note Book</button>
+      <button style={styles.addNewNoteBook} className='btn btn-primary'>Add New Note Book</button>
     </Link>
     <Link prefetch href='/newnote'>
       <button className='btn btn-primary'>Add New Note</button>
     </Link>
   </div>
 )
+
+const styles = {
+  topBar: {
+    marginBottom: '10px'
+  },
+  addNewNoteBook: {
+    marginRight: '10px'
+  }
+}
 
 export default TopBar
