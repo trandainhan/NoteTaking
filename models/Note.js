@@ -8,7 +8,7 @@ class Note {
     this.title = data.title || ''
     this.createdDate = data.createdDate || new Date().toString()
     this.content = data.content || convertToRaw(ContentState.createFromText('')),
-    this.book_id = data.book_id || ''
+    this.noteBookId = data.noteBookId || ''
   }
 }
 

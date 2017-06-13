@@ -36,10 +36,12 @@ export default class Editor extends Component {
     this.refs.editor.focus()
   }
   componentWillReceiveProps (nextProps) {
-    this.state = { editorState: nextProps.editorState || EditorState.createEmpty()}
+    this.setState({
+      editorState: nextProps.editorState || EditorState.createEmpty()
+    })
   }
   render() {
-    const editorState = this.state.editorState
+    const { editorState } = this.state
     return (
       <div className="Editor-root">
         <Head>

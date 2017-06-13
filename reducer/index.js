@@ -28,7 +28,7 @@ const noteBooks = (state = {}, action) => {
   }
 }
 
-const selectedNoteId = (state = '223', action) => {
+const selectedNoteId = (state = '', action) => {
   switch(action.type) {
     case SELECT_NOTE:
       return action.noteId
@@ -37,7 +37,7 @@ const selectedNoteId = (state = '223', action) => {
   }
 }
 
-const selectedBookdId = (state = '123', action) => {
+const selectedBookdId = (state = '', action) => {
   switch(action.type) {
     case SELECT_NOTE_BOOK:
       return action.noteBookId

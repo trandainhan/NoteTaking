@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
-import withRedux from 'next-redux-wrapper'
-import { initStore } from '../store'
 import fetch from 'axios';
 import Header from '../components/Header'
 
@@ -29,10 +27,8 @@ class NewNoteBook extends Component {
   async _saveNoteBook () {
     const { title } = this.state.noteBook
     const res = await fetch.post('http://localhost:3000/notebook', {
-      name: title
+      title: title
     })
-    const newNoteBook = new NoteBook(res.data)
-    this.props.dispatch(addNewNoteBook(newNoteBook.id, newNoteBook))
     Router.push({
       pathname: '/'
     })
@@ -50,4 +46,4 @@ class NewNoteBook extends Component {
   }
 }
 
-export default withRedux(initStore)(NewNoteBook)
+export default NewNoteBook

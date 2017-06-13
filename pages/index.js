@@ -15,11 +15,12 @@ import NotePreview from '../container/NotePreview'
 import NoteBook from '../container/NoteBook'
 import NoteView from '../container/NoteView'
 
-import { fetchNoteBooks } from '../action'
+import { fetchNoteBooks, fetchNotes } from '../action'
 
 class IndexPage extends Component {
   componentDidMount () {
     this.props.dispatch(fetchNoteBooks())
+    this.props.dispatch(fetchNotes())
   }
   render () {
     const { noteBooks, selectedNote } = this.props
@@ -43,7 +44,7 @@ class IndexPage extends Component {
 }
 
 const getSelectedNote = (state, noteId) => {
-  return state.notes[noteId]
+  return state.notes[noteId] || {}
 }
 
 const mapStateToProps = (state) => {

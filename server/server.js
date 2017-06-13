@@ -26,14 +26,14 @@ app.prepare().then(() => {
     NoteBook.find().lean().exec((err, noteBooks) => {
       if (err) {
         console.log('Something wrong in /notebooks')
-        res.status(500).send('Something broke!')
+        res.status(500).send('Something broken!')
       }
       res.json(noteBooks)
     })
   })
 
   server.post('/notebook', (req, res) => {
-    const { title } = req.body || {} // ?
+    const { title } = req.body || {}
     const noteBook = new NoteBook({
       title: title || 'Untitle'
     })
@@ -47,16 +47,35 @@ app.prepare().then(() => {
   })
 
   server.post('/note', (req, res) => {
+    const { title, content, noteBookId } = req.body
     const note = new Note({
-      title: '',
-      content: '',
-      boot_id: '????'
+      title: title,
+      content: content,
+      noteBookId: noteBookId
     })
-    return res.json({
-      tran: 'test'
-    })
+    const findNoteBookAndAddNote = (err, note) => {
+      if (err) {
+        res.status(400).send('Can not save')
+      }
+      NoteBook.findById(noteBookId, (err, noteBook) => {
+        noteBook.notes.push(note.id)
+        noteBook.save().then(() => {
+          res.status(200).json(note.toJSON())
+        })
+      })
+    }
+    note.save(findNoteBookAndAddNote)
   })
 
+  server.get('/note', (req, res) => {
+    Note.find().lean().exec((err, notes) => {
+      if (err) {
+        console.log('Something wrong in /note')
+        res.status(500).send('Something broken!')
+      }
+      res.status(200).json(notes)
+    })
+  })
 
   server.get('*', (req, res) => {
     return handle(req, res)

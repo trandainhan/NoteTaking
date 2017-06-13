@@ -4,16 +4,19 @@ import { connect } from 'react-redux'
 import { convertFromRaw, ContentState } from 'draft-js'
 import { selectNote } from '../action'
 
-const NotePreview = ({title, createdDate, content, setSelectedNote}) => (
-  <div className='note-preview' onClick={setSelectedNote} style={styles.notePreview}>
-    <h4 className='note-title'>{title}</h4>
-    <div className='note-create-date' style={styles.noteCreateDate}>{createdDate}</div>
-    <div className='note-content-preview' style={styles.noteContentPreview}>
-      {convertFromRaw(content).getPlainText()}
+const NotePreview = ({title, createdDate, content, setSelectedNote}) => {
+  return (
+    <div className='note-preview' onClick={setSelectedNote} style={styles.notePreview}>
+      <h4 className='note-title'>{title}</h4>
+      <div className='note-create-date' style={styles.noteCreateDate}>{createdDate}</div>
+      <div className='note-content-preview' style={styles.noteContentPreview}>
+        {content ? convertFromRaw(content).getPlainText() : ''}
+      </div>
+      <div style={{clear: 'both'}}></div>
     </div>
-    <div style={{clear: 'both'}}></div>
-  </div>
-)
+  )
+
+}
 
 const styles = {
   noteCreateDate: {

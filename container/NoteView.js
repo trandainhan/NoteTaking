@@ -7,7 +7,10 @@ import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 const NoteView = ({title, content, updateNoteContent}) => (
   <div>
     <h3>{title}</h3>
-    <Editor editorState={EditorState.createWithContent(convertFromRaw(content))} onChange={updateNoteContent} />
+    <Editor
+      editorState={content && EditorState.createWithContent(convertFromRaw(content))}
+      onChange={updateNoteContent}
+    />
   </div>
 )
 

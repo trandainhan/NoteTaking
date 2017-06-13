@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
+import Router from 'next/router'
 import Head from 'next/head'
-import withRedux from 'next-redux-wrapper'
-import { convertFromRaw, EditorState, convertToRaw } from 'draft-js'
+import { EditorState, convertToRaw } from 'draft-js'
 import fetch from 'axios';
 import Select from 'react-select'
 
 import Editor from '../components/Editor'
 import Header from '../components/Header'
-
-import Note from '../models/Note'
 
 import { addNewNote, updateNote } from '../action'
 
@@ -17,52 +15,48 @@ class NewNote extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      note: new Note(),
+      title: '',
+      content: EditorState.createEmpty(),
       selectedNoteBookId: '',
       noteBooks: []
     }
     this.updateNoteContent = (newContent) => this._updateNoteContent(newContent)
     this.updateTitle = (e) => this._updateTitle(e.target.value)
     this.saveNote = () => this._saveNote()
-    this.updateSelectedNoteBook = (value) => this._updateSelectedNoteBook(value)
+    this.updateSelectedNoteBook = (selectedOption) => this._updateSelectedNoteBook(selectedOption)
   }
   _updateNoteContent (newContent) {
-    const { note } = this.state
-    note.content = convertToRaw(newContent.getCurrentContent())
     this.setState({
-      note: note
+      content: newContent
     })
   }
   async _saveNote () {
-    const { title, content } = this.state.note
-    const res = await fetch.post('/note', {
+    const { title, content, selectedNoteBookId } = this.state
+    console.log(JSON.stringify(convertToRaw(content.getCurrentContent())))
+    const res = await fetch.post('http://localhost:3000/note', {
       title: title,
-      content: content,
-      noteBookId: this.state.selectedNoteBookId
+      content: JSON.stringify(convertToRaw(content.getCurrentContent())),
+      noteBookId: selectedNoteBookId
     })
-  }
-  __updateSelectedNoteBook (value) {
-    this.setState({
-      selectedNoteBookId: value
+    Router.push({
+      pathname: '/'
     })
   }
   _updateTitle (title) {
-    const { note } = this.state
-    note.title = title
     this.setState({
-      note: note
+      title: title
     })
   }
-  _updateSelectedNoteBook (value) {
+  _updateSelectedNoteBook (selectedOption) {
     this.setState({
-      selectedNoteBookId: value
+      selectedNoteBookId: selectedOption ? selectedOption.value : ''
     })
   }
   async componentDidMount () {
     const res = await fetch.get('http://localhost:3000/notebook')
     const noteBooks = res.data.map((noteBook) => {
       return {
-        id: noteBook._id,
+        value: noteBook._id,
         label: noteBook.title
       }
     })
@@ -71,8 +65,7 @@ class NewNote extends Component {
     })
   }
   render () {
-    const { noteBooks, selectedNoteBookId, note } = this.state
-    const { title, content } = note
+    const { noteBooks, selectedNoteBookId, title, content } = this.state
     return (
       <div>
         <Header />
@@ -88,7 +81,7 @@ class NewNote extends Component {
         />
         <input className='form-control' value={title} onChange={this.updateTitle} />
         <Editor
-          editorState={EditorState.createWithContent(convertFromRaw(content))}
+          editorState={content}
           onChange={this.updateNoteContent}
         />
         <button onClick={this.saveNote} className='form-control'>Save</button>
