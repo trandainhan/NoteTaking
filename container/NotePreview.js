@@ -20,11 +20,11 @@ const NotePreview = ({title, createdDate, content, setSelectedNote}) => {
 
 const styles = {
   noteCreateDate: {
-    width: '30%',
+    width: '35%',
     float: 'left'
   },
   noteContentPreview: {
-    width: '70%',
+    width: '65%',
     float: 'right',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
