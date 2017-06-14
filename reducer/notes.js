@@ -1,31 +1,12 @@
-import { UPDATE_NOTE, ADD_NEW_NOTE, INIT_NOTE_STATE } from '../action'
+import {
+  UPDATE_NOTE,
+  ADD_NEW_NOTE,
+  INIT_NOTE_STATE,
+  SELECT_NOTE
+} from '../action'
 import { convertToRaw, ContentState } from 'draft-js'
 
-const initState = {
-  211: {
-    id: '211',
-    title: 'Nhan',
-    createdDate: 'Today',
-    content: convertToRaw(ContentState.createFromText('This is note 1')),
-    noteBookId: '123'
-  },
-  222: {
-    id: '222',
-    title: 'Nhan 2',
-    createdDate: 'Yesterday',
-    content: convertToRaw(ContentState.createFromText('This is note 2')),
-    noteBookId: '123'
-  },
-  223: {
-    id: '223',
-    title: 'Nhan 3',
-    createdDate: 'Yesterday',
-    content: convertToRaw(ContentState.createFromText('This is note 3')),
-    noteBookId: '111'
-  }
-}
-
-const notes = (state = {}, action) => {
+export const notes = (state = {}, action) => {
   switch(action.type) {
     case INIT_NOTE_STATE:
       const result = action.data.reduce((acc, note) => {
@@ -48,4 +29,11 @@ const notes = (state = {}, action) => {
   }
 }
 
-export default notes
+export const selectedNoteId = (state = '', action) => {
+  switch(action.type) {
+    case SELECT_NOTE:
+      return action.noteId
+    default:
+      return state
+  }
+}
