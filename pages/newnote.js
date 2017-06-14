@@ -32,7 +32,6 @@ class NewNote extends Component {
   }
   async _saveNote () {
     const { title, content, selectedNoteBookId } = this.state
-    console.log(JSON.stringify(convertToRaw(content.getCurrentContent())))
     const res = await fetch.post('http://localhost:3000/note', {
       title: title,
       content: JSON.stringify(convertToRaw(content.getCurrentContent())),
@@ -67,26 +66,64 @@ class NewNote extends Component {
   render () {
     const { noteBooks, selectedNoteBookId, title, content } = this.state
     return (
-      <div>
+      <div style={styles.newNote} >
         <Header />
         <Head>
           <link rel="stylesheet" href="https://unpkg.com/react-select/dist/react-select.css" />
         </Head>
-        <Link href='/'><button className='btn btn-primary'>Back</button></Link>
+        <Link href='/'><a style={styles.back} className='btn btn-primary'>Back</a></Link>
         <Select
+          style={styles.selectBook}
           name="form-field-name"
           options={noteBooks}
           value={selectedNoteBookId}
           onChange={this.updateSelectedNoteBook}
         />
-        <input className='form-control' value={title} onChange={this.updateTitle} />
+        <input
+          style={styles.title}
+          className='form-control'
+          value={title}
+          onChange={this.updateTitle}
+          placeholder='Your Note title here...'
+        />
         <Editor
           editorState={content}
           onChange={this.updateNoteContent}
+          placeholder='Note content here...'
+          style={styles.editor}
         />
-        <button onClick={this.saveNote} className='form-control'>Save</button>
+        <button
+          style={styles.save}
+          onClick={this.saveNote}
+          className='form-control'>
+          Save
+        </button>
       </div>
     )
+  }
+}
+
+const styles = {
+  newNote: {
+    margin: 'auto',
+    width: '80%',
+    marginTop: '10px'
+  },
+  back: {
+    marginBottom: '10px',
+  },
+  selectBook: {
+    marginBottom: '10px'
+  },
+  title: {
+    marginBottom: '10px'
+  },
+  editor: {
+    marginBottom: '10px'
+  },
+  save: {
+    width: '20%',
+    margin: 'auto'
   }
 }
 

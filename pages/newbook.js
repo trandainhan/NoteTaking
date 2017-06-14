@@ -36,13 +36,33 @@ class NewNoteBook extends Component {
   render () {
     const { title } = this.state.noteBook || {}
     return (
-      <div>
+      <div style={styles.newBook}>
         <Header />
-        <Link href='/'><button className='btn btn-primary'>Back</button></Link>
-        <input className='form-control' value={title} onChange={this.handleChange} />
+        <Link href='/'><a style={styles.back} className='btn btn-primary'>Back</a></Link>
+        <input
+          style={styles.title}
+          className='form-control'
+          value={title}
+          onChange={this.handleChange}
+          placeholder='Your note title here...'
+        />
         <button onClick={this.saveNoteBook} className='form-control'>Save</button>
       </div>
     )
+  }
+}
+
+const styles = {
+  newBook: {
+    margin: 'auto',
+    width: '50%',
+    marginTop: '10px'
+  },
+  back: {
+    marginBottom: '10px'
+  },
+  title: {
+    marginBottom: '10px'
   }
 }
 

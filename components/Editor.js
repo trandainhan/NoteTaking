@@ -42,7 +42,7 @@ export default class Editor extends Component {
   render() {
     const { editorState } = this.state
     return (
-      <div className="Editor-root">
+      <div className="Editor-root" style={this.props.style}>
         <Head>
           <link rel="stylesheet" href="/static/editor.css" />
         </Head>
