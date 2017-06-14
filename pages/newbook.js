@@ -44,7 +44,7 @@ class NewNoteBook extends Component {
           className='form-control'
           value={title}
           onChange={this.handleChange}
-          placeholder='Your note title here...'
+          placeholder='Your NoteBook title here...'
         />
         <button onClick={this.saveNoteBook} className='form-control'>Save</button>
       </div>
