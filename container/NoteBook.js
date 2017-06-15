@@ -3,9 +3,14 @@ import { connect } from 'react-redux'
 import NotePreview from './NotePreview'
 import { values } from 'lodash/fp'
 
-const NoteBook = ({notes, noteBook}) => (
-  <div>
+const NoteBook = ({notes, noteBook, removeNoteBook}) => (
+  <div style={styles.noteBook}>
     <h3 style={styles.title}>{noteBook.title}</h3>
+    <span
+      style={styles.remove}
+      className="glyphicon glyphicon-remove" aria-hidden="true"
+      onClick={removeNoteBook}
+    />
     {
       values(notes).map((note) => (
         <NotePreview key={note.id} note={note} />
@@ -17,6 +22,16 @@ const NoteBook = ({notes, noteBook}) => (
 const styles = {
   title: {
     borderBottom: 'solid 1px black'
+  },
+  noteBook: {
+    position: 'relative'
+  },
+  remove: {
+    position: 'absolute',
+    right: '5px',
+    top: '5px',
+    cursor: 'pointer',
+    color: 'red'
   }
 }
 
@@ -31,7 +46,10 @@ const findNotesByNoteBook = (state, noteBook) => {
 
 const mapStateToProps = (state, { noteBook }) => {
   return {
-    notes: findNotesByNoteBook(state, noteBook)
+    notes: findNotesByNoteBook(state, noteBook),
+    removeNoteBook: () => {
+
+    }
   }
 }
 
