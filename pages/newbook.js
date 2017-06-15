@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
-import fetch from 'axios';
+import fetch from '../api/Fetch';
 import Header from '../components/Header'
 import NoteBook from '../models/NoteBook'
 
@@ -23,7 +23,7 @@ class NewNoteBook extends Component {
   }
   async _saveNoteBook () {
     const { title } = this.state.noteBook
-    const res = await fetch.post('http://localhost:3000/notebook', {
+    const res = await fetch.post('/notebook', {
       title: title
     })
     Router.push({

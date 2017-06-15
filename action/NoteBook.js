@@ -1,4 +1,4 @@
-import fetch from 'axios'
+import fetch from '../api/Fetch'
 import NoteBook from '../models/NoteBook'
 
 export const INIT_NOTE_BOOK_STATE = 'INIT_NOTE_BOOK_STATE'
@@ -23,7 +23,7 @@ export const selectNoteBook = (noteBookId) => ({
 
 
 export const fetchNoteBooks = () => async (dispatch) => {
-  const res = await fetch.get('http://localhost:3000/notebook')
+  const res = await fetch.get('/notebook')
   const data = res.data.map((noteBook) => {
     return new NoteBook({
       id: noteBook._id,

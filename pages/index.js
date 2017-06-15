@@ -2,7 +2,6 @@ import Head from 'next/head'
 import Link from 'next/link'
 import React, { Component } from 'react'
 import withRedux from 'next-redux-wrapper'
-import fetch from 'axios'
 import { values, isEmpty } from 'lodash-fp'
 
 import { initStore } from '../store'

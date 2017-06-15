@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Router from 'next/router'
 import Head from 'next/head'
 import { EditorState, convertToRaw } from 'draft-js'
-import fetch from 'axios';
+import fetch from '../api/Fetch';
 import Select from 'react-select'
 
 import Editor from '../components/Editor'
@@ -32,7 +32,7 @@ class NewNote extends Component {
   }
   async _saveNote () {
     const { title, content, selectedNoteBookId } = this.state
-    const res = await fetch.post('http://localhost:3000/note', {
+    const res = await fetch.post('/note', {
       title: title,
       content: JSON.stringify(convertToRaw(content.getCurrentContent())),
       noteBookId: selectedNoteBookId
@@ -52,7 +52,7 @@ class NewNote extends Component {
     })
   }
   async componentDidMount () {
-    const res = await fetch.get('http://localhost:3000/notebook')
+    const res = await fetch.get('/notebook')
     const noteBooks = res.data.map((noteBook) => {
       return {
         value: noteBook._id,

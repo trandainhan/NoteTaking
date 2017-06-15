@@ -1,5 +1,5 @@
 import { debounce } from 'lodash/fp'
-import fetch from 'axios'
+import fetch from '../api/Fetch'
 import Note from '../models/Note'
 
 export const INIT_NOTE_STATE = 'INIT_NOTE_STATE'
@@ -30,7 +30,7 @@ export const addNewNote = (noteId, note) => ({
 })
 
 export const fetchNotes = () => async (dispatch) => {
-  const res = await fetch.get('http://localhost:3000/note')
+  const res = await fetch.get('/note')
   const data = res.data.map((note) => {
     return new Note({
       id: note._id,
@@ -43,7 +43,7 @@ export const fetchNotes = () => async (dispatch) => {
 }
 
 const saveNote = async (note) => {
-  return await fetch.post('http://localhost:3000/note', {
+  return await fetch.post('/note', {
     id: note.id,
     title: note.title,
     content: JSON.stringify(note.content),
