@@ -47,24 +47,35 @@ app.prepare().then(() => {
   })
 
   server.post('/note', (req, res) => {
-    const { title, content, noteBookId } = req.body
-    const note = new Note({
-      title: title,
-      content: content,
-      noteBookId: noteBookId
-    })
-    const findNoteBookAndAddNote = (err, note) => {
-      if (err) {
-        res.status(400).send('Can not save')
-      }
-      NoteBook.findById(noteBookId, (err, noteBook) => {
-        noteBook.notes.push(note.id)
-        noteBook.save().then(() => {
-          res.status(200).json(note.toJSON())
-        })
+    const { title, content, noteBookId, id } = req.body
+    if (id) {
+      Note.findByIdAndUpdate(id, {
+        title: title,
+        content: content,
+        noteBookId: noteBookId
+      }, (err, note) => {
+        res.status(200).json(note.toJSON())
       })
+    } else {
+      const note = new Note({
+        title: title,
+        content: content,
+        noteBookId: noteBookId
+      })
+      const findNoteBookAndAddNote = (err, note) => {
+        if (err) {
+          res.status(400).send('Can not save')
+        }
+        NoteBook.findById(noteBookId, (err, noteBook) => {
+          if (noteBook && !noteBook.notes.includes(note.id)) {
+            noteBook.notes.push(note.id)
+            noteBook.save()
+          }
+        })
+        res.status(200).json(note.toJSON())
+      }
+      note.save(findNoteBookAndAddNote)
     }
-    note.save(findNoteBookAndAddNote)
   })
 
   server.get('/note', (req, res) => {
