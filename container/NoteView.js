@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { updateNote } from '../action'
+import { updateNote } from '../action/Note'
 import Editor from '../components/Editor'
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
+
+import { debounceSaveNote } from '../action/Note'
 
 const NoteView = ({title, content, updateNoteContent}) => (
   <div>
@@ -21,6 +23,7 @@ const mapDispatchToProps = (dispatch, { note }) => {
         ...note,
         content: convertToRaw(newContent.getCurrentContent())
       }
+      debounceSaveNote(updatedNote)
       dispatch(updateNote(updatedNote, note.id))
     },
     ...note

@@ -15,7 +15,8 @@ import NotePreview from '../container/NotePreview'
 import NoteBook from '../container/NoteBook'
 import NoteView from '../container/NoteView'
 
-import { fetchNoteBooks, fetchNotes } from '../action'
+import { fetchNoteBooks } from '../action/NoteBook'
+import { fetchNotes } from '../action/Note'
 
 class IndexPage extends Component {
   componentDidMount () {

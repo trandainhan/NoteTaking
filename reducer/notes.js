@@ -3,7 +3,7 @@ import {
   ADD_NEW_NOTE,
   INIT_NOTE_STATE,
   SELECT_NOTE
-} from '../action'
+} from '../action/Note'
 import { convertToRaw, ContentState } from 'draft-js'
 
 export const notes = (state = {}, action) => {

@@ -1,8 +1,8 @@
 import {
-  SELECT_NOTE_BOOK,
+  INIT_NOTE_BOOK_STATE,
   ADD_NEW_NOTE_BOOK,
-  INIT_NOTE_BOOK_STATE
-} from '../action'
+  SELECT_NOTE_BOOK
+} from '../action/NoteBook'
 
 import NoteBook from '../models/NoteBook'
 

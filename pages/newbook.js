@@ -3,9 +3,6 @@ import Link from 'next/link'
 import Router from 'next/router'
 import fetch from 'axios';
 import Header from '../components/Header'
-
-import { addNewNoteBook } from '../action'
-
 import NoteBook from '../models/NoteBook'
 
 class NewNoteBook extends Component {

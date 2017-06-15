@@ -2,7 +2,7 @@ import React from 'react'
 import Note from '../models/Note'
 import Link from 'next/link'
 
-import { addNewNote } from '../action'
+import { addNewNote } from '../action/Note'
 
 const TopBar = ({handler}) => (
   <div style={styles.topBar} >

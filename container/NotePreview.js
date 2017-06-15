@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import { connect } from 'react-redux'
 import { convertFromRaw, ContentState } from 'draft-js'
-import { selectNote } from '../action'
+import { selectNote } from '../action/Note'
 
 const NotePreview = ({title, createdDate, content, setSelectedNote}) => {
   return (
