@@ -33,7 +33,7 @@ app.prepare().then(() => {
   })
 
   server.post('/notebook', (req, res) => {
-    const { title } = req.body || {}
+    const { title } = req.body
     const noteBook = new NoteBook({
       title: title || 'Untitle'
     })
@@ -46,6 +46,17 @@ app.prepare().then(() => {
     })
   })
 
+  server.delete('/notebook', (req, res) => {
+    const { id } = req.query
+    if (id) {
+      NoteBook.remove({_id: id}, (err, doc) => {
+        Note.deleteMany({noteBookId: id }, (err, docs) => {
+          res.status(202).json(doc)
+        })
+      })
+    }
+  })
+
   server.post('/note', (req, res) => {
     const { title, content, noteBookId, id } = req.body
     if (id) {
@@ -54,6 +65,10 @@ app.prepare().then(() => {
         content: content,
         noteBookId: noteBookId
       }, (err, note) => {
+        if (err) {
+          json.status(400).send("Somthing wrong")
+          return
+        }
         res.status(200).json(note.toJSON())
       })
     } else {

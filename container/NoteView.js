@@ -19,12 +19,13 @@ const NoteView = ({title, content, updateNoteContent}) => (
 const mapDispatchToProps = (dispatch, { note }) => {
   return {
     updateNoteContent: (newContent) => {
-      const updatedNote = {
-        ...note,
-        content: convertToRaw(newContent.getCurrentContent())
+      if (note) {
+        const updatedNote = {
+          ...note,
+          content: convertToRaw(newContent.getCurrentContent())
+        }
+        dispatch(updateNote(updatedNote, note.id))
       }
-      debounceSaveNote(updatedNote)
-      dispatch(updateNote(updatedNote, note.id))
     },
     ...note
   }

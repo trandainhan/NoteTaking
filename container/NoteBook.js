@@ -3,13 +3,15 @@ import { connect } from 'react-redux'
 import NotePreview from './NotePreview'
 import { values } from 'lodash/fp'
 
-const NoteBook = ({notes, noteBook, removeNoteBook}) => (
+import { deleteNoteBook } from '../action/NoteBook'
+
+const NoteBook = ({notes, noteBook, deleteNoteBook}) => (
   <div style={styles.noteBook}>
     <h3 style={styles.title}>{noteBook.title}</h3>
     <span
       style={styles.remove}
       className="glyphicon glyphicon-remove" aria-hidden="true"
-      onClick={removeNoteBook}
+      onClick={deleteNoteBook}
     />
     {
       values(notes).map((note) => (
@@ -46,11 +48,16 @@ const findNotesByNoteBook = (state, noteBook) => {
 
 const mapStateToProps = (state, { noteBook }) => {
   return {
-    notes: findNotesByNoteBook(state, noteBook),
-    removeNoteBook: () => {
+    notes: findNotesByNoteBook(state, noteBook)
+  }
+}
 
+const mapDispatchToProps = (dispatch, { noteBook }) => {
+  return {
+    deleteNoteBook: () => {
+      dispatch(deleteNoteBook(noteBook))
     }
   }
 }
 
-export default connect(mapStateToProps)(NoteBook)
+export default connect(mapStateToProps, mapDispatchToProps)(NoteBook)

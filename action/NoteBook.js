@@ -1,9 +1,11 @@
 import fetch from '../api/Fetch'
 import NoteBook from '../models/NoteBook'
+import { removeNotes } from './Note'
 
 export const INIT_NOTE_BOOK_STATE = 'INIT_NOTE_BOOK_STATE'
 export const ADD_NEW_NOTE_BOOK = 'ADD_NEW_NOTE_BOOK'
 export const SELECT_NOTE_BOOK = 'SELECT_NOTE_BOOK'
+export const REMOVE_NOTE_BOOK = 'REMOVE_NOTE_BOOK'
 
 export const initNoteBooksState = (data) => ({
   type: INIT_NOTE_BOOK_STATE,
@@ -21,6 +23,10 @@ export const selectNoteBook = (noteBookId) => ({
   noteBookId
 })
 
+export const removeNoteBook = (noteBook) => ({
+  type: REMOVE_NOTE_BOOK,
+  noteBook
+})
 
 export const fetchNoteBooks = () => async (dispatch) => {
   const res = await fetch.get('/notebook')
@@ -32,4 +38,12 @@ export const fetchNoteBooks = () => async (dispatch) => {
     })
   })
   dispatch(initNoteBooksState(data))
+}
+
+export const deleteNoteBook = (noteBook) => async (dispatch) => {
+  const res = await fetch.delete('/notebook', { params: { id: noteBook.id } })
+  if (res.status === 202) {
+    dispatch(removeNoteBook(noteBook))
+    dispatch(removeNotes(noteBook.notes))
+  }
 }

@@ -2,8 +2,11 @@ import {
   UPDATE_NOTE,
   ADD_NEW_NOTE,
   INIT_NOTE_STATE,
-  SELECT_NOTE
+  SELECT_NOTE,
+  REMOVE_NOTES
 } from '../action/Note'
+
+import { omit } from 'lodash/fp'
 import { convertToRaw, ContentState } from 'draft-js'
 
 export const notes = (state = {}, action) => {
@@ -24,6 +27,8 @@ export const notes = (state = {}, action) => {
         ...state,
         [action.noteId]: action.note
       }
+    case REMOVE_NOTES:
+      return omit(action.noteIds, state)
     default:
       return state
   }

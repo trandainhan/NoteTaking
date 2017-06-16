@@ -6,6 +6,7 @@ export const INIT_NOTE_STATE = 'INIT_NOTE_STATE'
 export const SELECT_NOTE = 'SELECT_NOTE'
 export const UPDATE_NOTE = 'UPDATE_NOTE'
 export const ADD_NEW_NOTE = 'ADD_NEW_NOTE'
+export const REMOVE_NOTES = 'REMOVE_NOTES'
 
 export const initNotesState = (data) => ({
   type: INIT_NOTE_STATE,
@@ -17,16 +18,24 @@ export const selectNote = (noteId) => ({
   noteId
 })
 
-export const updateNote = (updatedNote, noteId) => ({
-  type: UPDATE_NOTE,
-  noteId,
-  updatedNote
-})
+export const updateNote = (updatedNote, noteId) => {
+  debounceSaveNote(updatedNote)
+  return {
+    type: UPDATE_NOTE,
+    noteId,
+    updatedNote
+  }
+}
 
 export const addNewNote = (noteId, note) => ({
   type: ADD_NEW_NOTE,
   noteId,
   note
+})
+
+export const removeNotes = (noteIds) => ({
+  type: REMOVE_NOTES,
+  noteIds
 })
 
 export const fetchNotes = () => async (dispatch) => {
@@ -47,7 +56,7 @@ const saveNote = async (note) => {
     id: note.id,
     title: note.title,
     content: JSON.stringify(note.content),
-    noteBookId: note.selectedNoteBookId
+    noteBookId: note.noteBookId
   })
 }
 

@@ -8,5 +8,8 @@ export default {
   },
   post: (path, data) => {
     return axios.post(BASE_URL + path, data)
+  },
+  delete: (path, data) => {
+    return axios.delete(BASE_URL + path, data)
   }
 }

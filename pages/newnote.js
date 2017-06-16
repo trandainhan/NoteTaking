@@ -21,8 +21,8 @@ class NewNote extends Component {
       noteBooks: []
     }
     this.updateNoteContent = (newContent) => this._updateNoteContent(newContent)
-    this.updateTitle = (e) => this._updateTitle(e.target.value)
-    this.saveNote = () => this._saveNote()
+    this.updateTitle = (e) => { this._updateTitle(e.target.value) }
+    this.saveNote = () => { this._saveNote() }
     this.updateSelectedNoteBook = (selectedOption) => this._updateSelectedNoteBook(selectedOption)
   }
   _updateNoteContent (newContent) {

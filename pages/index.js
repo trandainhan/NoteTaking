@@ -44,7 +44,7 @@ class IndexPage extends Component {
 }
 
 const getSelectedNote = (state, noteId) => {
-  return state.notes[noteId] || values(state.notes)[0] || {}
+  return state.notes[noteId] || values(state.notes)[0]
 }
 
 const mapStateToProps = (state) => {
