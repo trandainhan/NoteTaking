@@ -7,7 +7,7 @@ import { deleteNoteBook } from '../action/NoteBook'
 
 const NoteBook = ({notes, noteBook, deleteNoteBook}) => (
   <div style={styles.noteBook}>
-    <h3 style={styles.title}>{noteBook.title}</h3>
+    <div style={styles.title}>{noteBook.title}</div>
     <span
       style={styles.remove}
       className="glyphicon glyphicon-remove" aria-hidden="true"
@@ -23,10 +23,13 @@ const NoteBook = ({notes, noteBook, deleteNoteBook}) => (
 
 const styles = {
   title: {
-    borderBottom: 'solid 1px black'
+    borderBottom: 'solid 1px black',
+    fontSize: '20px',
+    fontWeight: 'bold'
   },
   noteBook: {
-    position: 'relative'
+    position: 'relative',
+    marginBottom: '10px'
   },
   remove: {
     position: 'absolute',

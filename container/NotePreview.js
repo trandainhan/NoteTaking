@@ -30,7 +30,8 @@ const styles = {
   },
   selectNote: {
     marginRight: '20px',
-    display: 'flex'
+    display: 'flex',
+    cursor: 'pointer'
   },
   noteCreateDate: {
     width: '35%',

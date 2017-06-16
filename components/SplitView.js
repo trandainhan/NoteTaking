@@ -6,7 +6,7 @@ export default ({children, className, leftWidth, rightWidth}) => {
   }
   const leftChild = children[0]
   const rightChild = children[1]
-  const clazzName = 'split-view ' + className
+  const clazzName = 'split-view ' + (className || '')
   const leftViewStyle = leftWidth ? {
     ...styles.leftView,
     width: leftWidth
