@@ -3,11 +3,24 @@ import { connect } from 'react-redux'
 import NotePreview from './NotePreview'
 import { values } from 'lodash/fp'
 
-import { deleteNoteBook } from '../action/NoteBook'
+import { deleteNoteBook, updateNoteBook, saveNoteBook } from '../action/NoteBook'
 
-const NoteBook = ({notes, noteBook, deleteNoteBook}) => (
+import EditableInput from '../components/EditableInput'
+
+const NoteBook = ({
+  notes,
+  noteBook,
+  deleteNoteBook,
+  updateNoteBookTitle,
+  saveNoteBook
+}) => (
   <div style={styles.noteBook}>
-    <div style={styles.title}>{noteBook.title}</div>
+    <EditableInput
+      value={noteBook.title}
+      style={styles.editableInput}
+      onChange={updateNoteBookTitle}
+      onFinishEdit={saveNoteBook}
+    />
     <span
       style={styles.remove}
       className="glyphicon glyphicon-remove" aria-hidden="true"
@@ -22,6 +35,10 @@ const NoteBook = ({notes, noteBook, deleteNoteBook}) => (
 )
 
 const styles = {
+  editableInput: {
+    marginRight: '20px',
+    display: 'flex',
+  },
   title: {
     borderBottom: 'solid 1px black',
     fontSize: '20px',
@@ -59,6 +76,16 @@ const mapDispatchToProps = (dispatch, { noteBook }) => {
   return {
     deleteNoteBook: () => {
       dispatch(deleteNoteBook(noteBook))
+    },
+    updateNoteBookTitle: (newTitle) => {
+      const updatedNoteBook = {
+        ...noteBook,
+        title: newTitle
+      }
+      dispatch(updateNoteBook(noteBook.id, updatedNoteBook))
+    },
+    saveNoteBook: () => {
+      saveNoteBook(noteBook)
     }
   }
 }

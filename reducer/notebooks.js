@@ -3,7 +3,8 @@ import {
   ADD_NEW_NOTE_BOOK,
   SELECT_NOTE_BOOK,
   REMOVE_NOTE_BOOK,
-  REMOVE_NOTE_FROM_NOTE_BOOK
+  REMOVE_NOTE_FROM_NOTE_BOOK,
+  UPDATE_NOTE_BOOK
 } from '../action/NoteBook'
 
 import { omit, filter } from 'lodash/fp'
@@ -36,6 +37,11 @@ export const noteBooks = (state = {}, action) => {
             return noteId !== action.noteId
           })
         }
+      }
+    case UPDATE_NOTE_BOOK:
+      return {
+        ...state,
+        [action.noteBookId]: action.updatedNoteBook
       }
     default:
       return state

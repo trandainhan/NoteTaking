@@ -7,6 +7,7 @@ export const ADD_NEW_NOTE_BOOK = 'ADD_NEW_NOTE_BOOK'
 export const SELECT_NOTE_BOOK = 'SELECT_NOTE_BOOK'
 export const REMOVE_NOTE_BOOK = 'REMOVE_NOTE_BOOK'
 export const REMOVE_NOTE_FROM_NOTE_BOOK = 'REMOVE_NOTE_FROM_NOTE_BOOK'
+export const UPDATE_NOTE_BOOK = 'UPDATE_NOTE_BOOK'
 
 export const initNoteBooksState = (data) => ({
   type: INIT_NOTE_BOOK_STATE,
@@ -35,6 +36,15 @@ export const removeNoteFromNoteBook = (noteBookId, noteId) => ({
   noteId
 })
 
+export const updateNoteBook = (noteBookId, updatedNoteBook) => ({
+  type: UPDATE_NOTE_BOOK,
+  noteBookId,
+  updatedNoteBook
+})
+
+export const saveNoteBook = async (noteBook) => {
+  return await fetch.post('/notebook', noteBook)
+}
 
 // Async action
 

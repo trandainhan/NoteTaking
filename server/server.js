@@ -28,22 +28,35 @@ app.prepare().then(() => {
         console.log('Something wrong in /notebooks')
         res.status(500).send('Something broken!')
       }
-      res.json(noteBooks)
+      res.status(200).json(noteBooks)
     })
   })
 
   server.post('/notebook', (req, res) => {
-    const { title } = req.body
-    const noteBook = new NoteBook({
-      title: title || 'Untitle'
-    })
-
-    noteBook.save().then((noteBook) => {
-      res.status(200).json({
-        id: noteBook.id,
-        title: noteBook.title
+    const { title, id, notes } = req.body
+    if (id) {
+      NoteBook.findByIdAndUpdate(id, {
+        title: title,
+        notes: notes
+      }, (err, noteBook) => {
+        if (err) {
+          json.status(400).json(err)
+          return
+        }
+        res.status(201).json(noteBook)
       })
-    })
+    } else {
+      const noteBook = new NoteBook({
+        title: title || 'Untitle'
+      })
+
+      noteBook.save().then((noteBook) => {
+        res.status(200).json({
+          id: noteBook.id,
+          title: noteBook.title
+        })
+      })
+    }
   })
 
   server.delete('/notebook', (req, res) => {

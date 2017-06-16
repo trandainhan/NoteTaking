@@ -48,7 +48,7 @@ const saveNote = async (note) => {
   })
 }
 
-export const debounceSaveNote = debounce(10000, saveNote)
+const debounceSaveNote = debounce(5000, saveNote)
 
 
 // Async action

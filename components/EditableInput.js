@@ -17,6 +17,7 @@ class EditableInput extends Component {
     })
   }
   _handleDone () {
+    this.props.onFinishEdit && this.props.onFinishEdit(this.props.value)
     this.setState({
       isEdit: false
     })
