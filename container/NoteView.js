@@ -6,15 +6,26 @@ import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 
 import { debounceSaveNote } from '../action/Note'
 
-const NoteView = ({title, content, updateNoteContent}) => (
+const NoteView = ({title, content, updateNoteContent, updateNoteTitle}) => (
   <div>
-    <h3>{title}</h3>
+    <input
+      className='form-control'
+      value={title}
+      onChange={updateNoteTitle}
+      style={styles.title}
+    />
     <Editor
       editorState={content && EditorState.createWithContent(convertFromRaw(content))}
       onChange={updateNoteContent}
     />
   </div>
 )
+
+const styles = {
+  title: {
+    marginBottom: '10px'
+  }
+}
 
 const mapDispatchToProps = (dispatch, { note }) => {
   return {
@@ -25,6 +36,14 @@ const mapDispatchToProps = (dispatch, { note }) => {
           content: convertToRaw(newContent.getCurrentContent())
         }
         dispatch(updateNote(updatedNote, note.id))
+      }
+    },
+    updateNoteTitle: (e) => {
+      if (note) {
+        dispatch(updateNote({
+          ...note,
+          title: e.target.value
+        }, note.id))
       }
     },
     ...note
