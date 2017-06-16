@@ -10,5 +10,5 @@ export const formatDate = (date) => {
   var monthIndex = date.getMonth();
   var year = date.getFullYear();
 
-  return day + ' ' + monthNames[monthIndex] + ' ' + year;
+  return day + '/' + (monthIndex + 1) + '/' + year;
 }

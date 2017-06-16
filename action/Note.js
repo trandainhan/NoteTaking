@@ -1,6 +1,7 @@
 import { debounce } from 'lodash/fp'
 import fetch from '../api/Fetch'
 import Note from '../models/Note'
+import { removeNoteFromNoteBook } from './NoteBook'
 
 export const INIT_NOTE_STATE = 'INIT_NOTE_STATE'
 export const SELECT_NOTE = 'SELECT_NOTE'
@@ -38,6 +39,20 @@ export const removeNotes = (noteIds) => ({
   noteIds
 })
 
+const saveNote = async (note) => {
+  return await fetch.post('/note', {
+    id: note.id,
+    title: note.title,
+    content: JSON.stringify(note.content),
+    noteBookId: note.noteBookId
+  })
+}
+
+export const debounceSaveNote = debounce(10000, saveNote)
+
+
+// Async action
+
 export const fetchNotes = () => async (dispatch) => {
   const res = await fetch.get('/note')
   const data = res.data.map((note) => {
@@ -51,13 +66,10 @@ export const fetchNotes = () => async (dispatch) => {
   dispatch(initNotesState(data))
 }
 
-const saveNote = async (note) => {
-  return await fetch.post('/note', {
-    id: note.id,
-    title: note.title,
-    content: JSON.stringify(note.content),
-    noteBookId: note.noteBookId
-  })
+export const deleteNote = (note) => async (dispatch) => {
+  const res = await fetch.delete('/note', { params: {id: note.id}})
+  if (res.status === 202) {
+    dispatch(removeNotes([note.id]))
+    dispatch(removeNoteFromNoteBook(note.noteBookId, note.id))
+  }
 }
-
-export const debounceSaveNote = debounce(10000, saveNote)

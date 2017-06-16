@@ -97,10 +97,22 @@ app.prepare().then(() => {
     Note.find().lean().exec((err, notes) => {
       if (err) {
         console.log('Something wrong in /note')
-        res.status(500).send('Something broken!')
+        res.status(500).json(err)
       }
       res.status(200).json(notes)
     })
+  })
+
+  server.delete('/note', (req, res) => {
+    const { id } = req.query
+    if (id) {
+      Note.remove({_id: id}, (err, result) => {
+        if (err) {
+          res.status(404).json(err)
+        }
+        res.status(202).json(result)
+      })
+    }
   })
 
   server.get('*', (req, res) => {

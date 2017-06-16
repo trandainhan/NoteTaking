@@ -2,10 +2,11 @@ import {
   INIT_NOTE_BOOK_STATE,
   ADD_NEW_NOTE_BOOK,
   SELECT_NOTE_BOOK,
-  REMOVE_NOTE_BOOK
+  REMOVE_NOTE_BOOK,
+  REMOVE_NOTE_FROM_NOTE_BOOK
 } from '../action/NoteBook'
 
-import { omit } from 'lodash/fp'
+import { omit, filter } from 'lodash/fp'
 
 import NoteBook from '../models/NoteBook'
 
@@ -25,6 +26,17 @@ export const noteBooks = (state = {}, action) => {
       return result;
     case REMOVE_NOTE_BOOK:
       return omit([action.noteBook.id], state)
+    case REMOVE_NOTE_FROM_NOTE_BOOK:
+      const noteBook = state[action.noteBookId]
+      return {
+        ...state,
+        [action.noteBookId]: {
+          ...noteBook,
+          notes: noteBook.notes.filter((noteId) => {
+            return noteId !== action.noteId
+          })
+        }
+      }
     default:
       return state
   }

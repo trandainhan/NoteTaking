@@ -2,16 +2,22 @@ import React from 'react'
 import Head from 'next/head'
 import { connect } from 'react-redux'
 import { convertFromRaw, ContentState } from 'draft-js'
-import { selectNote } from '../action/Note'
+import { selectNote, deleteNote } from '../action/Note'
 
-const NotePreview = ({title, createdDate, content, setSelectedNote}) => {
+const NotePreview = ({title, createdDate, setSelectedNote, deleteNote}) => {
   return (
-    <div className='note-preview' onClick={setSelectedNote} style={styles.notePreview}>
-      <h4 className='note-title'>{title}</h4>
-      <div className='note-create-date' style={styles.noteCreateDate}>{createdDate}</div>
-      <div className='note-content-preview' style={styles.noteContentPreview}>
-        {content ? convertFromRaw(content).getPlainText() : ''}
+    <div className='note-preview' style={styles.notePreview}>
+      <div onClick={setSelectedNote} style={styles.selectNote} >
+        <div className='note-create-date' style={styles.noteCreateDate}>{createdDate}</div>
+        <div className='note-title' style={styles.title}>
+          {title}
+        </div>
       </div>
+      <span
+        style={styles.removeIcon}
+        className="glyphicon glyphicon-remove" aria-hidden="true"
+        onClick={deleteNote}
+      />
       <div style={{clear: 'both'}}></div>
     </div>
   )
@@ -19,19 +25,30 @@ const NotePreview = ({title, createdDate, content, setSelectedNote}) => {
 }
 
 const styles = {
+  notePreview: {
+    position: 'relative'
+  },
+  selectNote: {
+    marginRight: '20px',
+    display: 'flex'
+  },
   noteCreateDate: {
     width: '35%',
     float: 'left'
   },
-  noteContentPreview: {
+  title: {
     width: '65%',
     float: 'right',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
   },
-  notePreview: {
-     cursor: 'pointer'
+  removeIcon: {
+    cursor: 'pointer',
+    color: 'red',
+    position: 'absolute',
+    right: '5px',
+    top: '3px'
   }
 }
 
@@ -40,9 +57,11 @@ const mapDispatchToProps = (dispatch, { note }) => {
     setSelectedNote: (e) => {
       dispatch(selectNote(note.id))
     },
+    deleteNote: () => {
+      dispatch(deleteNote(note))
+    },
     ...note
   }
 }
-
 
 export default connect(null, mapDispatchToProps)(NotePreview)
