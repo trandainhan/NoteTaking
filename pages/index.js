@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import React, { Component } from 'react'
 import withRedux from 'next-redux-wrapper'
-import { values, isEmpty } from 'lodash-fp'
+import { values, isEmpty, some, pick, filter } from 'lodash-fp'
 
 import { initStore } from '../store'
 import SplitView from '../components/SplitView'
@@ -25,7 +25,13 @@ class IndexPage extends Component {
     this.props.dispatch(fetchNotes())
   }
   render () {
-    const { noteBooks, selectedNote, searchKey, handleChangeSearchKey } = this.props
+    const {
+      noteBooks,
+      selectedNote,
+      searchKey,
+      handleChangeSearchKey,
+      onResetSearchKey
+    } = this.props
     return (
       <div style={styles.indexPage}>
         <Header />
@@ -36,9 +42,10 @@ class IndexPage extends Component {
               className='marginBottom'
               value={searchKey}
               onChange={handleChangeSearchKey}
+              onResetSearchKey={onResetSearchKey}
             />
             {
-              isEmpty(noteBooks) ? "No NoteBook Yet" : values(noteBooks).map((noteBook) => (
+              isEmpty(noteBooks) ? "No NoteBook!!!" : values(noteBooks).map((noteBook) => (
                 <NoteBook key={noteBook.id} noteBook={noteBook} />
               ))
             }
@@ -60,19 +67,27 @@ const getSelectedNote = (state, noteId) => {
   return state.notes[noteId] || values(state.notes)[0]
 }
 
-const getNoteBookBySearchKey = (noteBooks, searchKey) => {
+const isNotesContainSearchKey = (notes, searchKey) => {
+  return some((note) => {
+    return note.title.includes(searchKey)
+  }, notes)
+}
+
+const getNoteBookBySearchKey = (state, searchKey) => {
+  const { noteBooks, notes } = state
   if (!searchKey) return noteBooks
-  const result = {}
-  Object.keys(noteBooks).forEach((key) => {
-    noteBooks[key].title.includes(searchKey) && (result[key] = noteBooks[key])
-  })
-  return result
+  return filter((noteBook) => {
+    return (
+      noteBook.title.includes(searchKey)
+      || isNotesContainSearchKey(pick(noteBook.notes, notes), searchKey)
+    )
+  }, noteBooks)
 }
 
 const mapStateToProps = (state) => {
-  const { noteBooks, selectedNoteId, searchKey } = state
+  const { selectedNoteId, searchKey } = state
   return {
-    noteBooks: getNoteBookBySearchKey(noteBooks, searchKey),
+    noteBooks: getNoteBookBySearchKey(state, searchKey),
     selectedNote: getSelectedNote(state, selectedNoteId),
     searchKey: searchKey
   }
@@ -82,6 +97,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleChangeSearchKey: (e) => {
       dispatch(updateSearchNote(e.target.value))
+    },
+    onResetSearchKey: () => {
+      dispatch(updateSearchNote(''))
     },
     dispatch
   }

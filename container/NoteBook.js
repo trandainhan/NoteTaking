@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import NotePreview from './NotePreview'
-import { values } from 'lodash/fp'
+import { values, pick, filter } from 'lodash/fp'
 
 import { deleteNoteBook, updateNoteBook, saveNoteBook } from '../action/NoteBook'
 
@@ -57,18 +57,35 @@ const styles = {
   }
 }
 
-const findNotesByNoteBook = (state, noteBook) => {
+const findNotesByNoteBook = (noteBook, notes) => {
   const { notes: noteIds } = noteBook
-  const { notes: allNotes } = state
-  return Object.keys(allNotes).filter(key => noteIds.includes(key)).reduce((obj, key) => {
-    obj[key] = allNotes[key]
-    return obj
-  }, {})
+  return pick(noteIds, notes)
+}
+
+const isNoteBookTitleContainSearchKey = (noteBook, searchKey) => {
+  return noteBook.title.includes(searchKey)
+}
+
+const getNoteBySearchKey = (state, notes) => {
+  const { searchKey, noteBooks } = state
+  if (!searchKey) return notes
+  return filter((note) => {
+    return (
+      note.title.includes(searchKey)
+      || isNoteBookTitleContainSearchKey(noteBooks[note.noteBookId], searchKey)
+    )
+  }, notes)
+}
+
+const getNotes = (state, noteBook) => {
+  const { searchKey, noteBooks, notes } = state
+  const notesByBook = findNotesByNoteBook(noteBook, notes)
+  return getNoteBySearchKey(state, notes)
 }
 
 const mapStateToProps = (state, { noteBook }) => {
   return {
-    notes: findNotesByNoteBook(state, noteBook)
+    notes: getNotes(state, noteBook)
   }
 }
 

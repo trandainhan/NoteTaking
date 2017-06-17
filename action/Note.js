@@ -67,7 +67,7 @@ export const fetchNotes = () => async (dispatch) => {
 }
 
 export const deleteNote = (note) => async (dispatch) => {
-  const res = await fetch.delete('/note', { params: {id: note.id}})
+  const res = await fetch.delete('/note', { params: {id: note.id, noteBookId: note.noteBookId}})
   if (res.status === 202) {
     dispatch(removeNotes([note.id]))
     dispatch(removeNoteFromNoteBook(note.noteBookId, note.id))
