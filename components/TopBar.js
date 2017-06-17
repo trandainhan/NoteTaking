@@ -17,7 +17,8 @@ const TopBar = ({handler}) => (
 
 const styles = {
   topBar: {
-    marginBottom: '10px'
+    marginBottom: '10px',
+    marginLeft: '10px'
   },
   addNewNoteBook: {
     marginRight: '10px'

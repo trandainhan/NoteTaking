@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Head from 'next/head'
 import { Editor as DraftEditor, EditorState, RichUtils, ContentState } from 'draft-js'
+import classNames from 'classnames'
 import BlockStyleControls from './BlockStyleControls'
 import InlineStyleControls from './InlineStyleControls'
 
@@ -41,8 +42,9 @@ export default class Editor extends Component {
   }
   render() {
     const { editorState } = this.state
+    const claszzName = classNames('Editor-root', this.props.className)
     return (
-      <div className="Editor-root" style={this.props.style}>
+      <div className={claszzName}>
         <Head>
           <link rel="stylesheet" href="/static/editor.css" />
         </Head>

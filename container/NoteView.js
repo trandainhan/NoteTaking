@@ -1,16 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
+import classNames from 'classnames'
+
 import { updateNote } from '../action/Note'
 import Editor from '../components/Editor'
 import Input from '../components/Input'
-import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 
-const NoteView = ({title, content, updateNoteContent, updateNoteTitle}) => (
-  <div>
+
+const NoteView = ({title, content, updateNoteContent, updateNoteTitle, className}) => (
+  <div className={classNames('NoteView', className)}>
     <Input
+      className='marginBottom'
       value={title || ''}
       onChange={updateNoteTitle}
-      style={styles.title}
     />
     <Editor
       editorState={content && EditorState.createWithContent(convertFromRaw(content))}
@@ -18,12 +21,6 @@ const NoteView = ({title, content, updateNoteContent, updateNoteTitle}) => (
     />
   </div>
 )
-
-const styles = {
-  title: {
-    marginBottom: '10px'
-  }
-}
 
 const mapDispatchToProps = (dispatch, { note }) => {
   return {

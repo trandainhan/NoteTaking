@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 
 export default ({children, className, leftWidth, rightWidth}) => {
   if (children.length === 0) {
@@ -6,7 +7,7 @@ export default ({children, className, leftWidth, rightWidth}) => {
   }
   const leftChild = children[0]
   const rightChild = children[1]
-  const clazzName = 'split-view ' + (className || '')
+  const clazzName = classNames('split-view ', className)
   const leftViewStyle = leftWidth ? {
     ...styles.leftView,
     width: leftWidth
@@ -43,7 +44,6 @@ const styles = {
   },
   rightView: {
     width: '50%',
-    float: 'left',
-    paddingLeft: '10px'
+    float: 'left'
   }
 }

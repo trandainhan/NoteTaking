@@ -72,25 +72,25 @@ class NewNote extends Component {
         <Head>
           <link rel="stylesheet" href="https://unpkg.com/react-select/dist/react-select.css" />
         </Head>
-        <Link href='/'><a style={styles.back} className='btn btn-primary'>Back</a></Link>
+        <Link href='/'><a className='btn btn-primary marginBottom'>Back</a></Link>
         <Select
-          style={styles.selectBook}
+          className='marginBottom'
           name="form-field-name"
           options={noteBooks}
           value={selectedNoteBookId}
           onChange={this.updateSelectedNoteBook}
         />
         <Input
-          style={styles.title}
+          className='marginBottom'
           value={title}
           onChange={this.updateTitle}
           placeholder='Your Note title here...'
         />
         <Editor
+          className='marginBottom'
           editorState={content}
           onChange={this.updateNoteContent}
           placeholder='Note content here...'
-          style={styles.editor}
         />
         <button
           style={styles.save}
@@ -108,18 +108,6 @@ const styles = {
     margin: 'auto',
     width: '80%',
     marginTop: '10px'
-  },
-  back: {
-    marginBottom: '10px',
-  },
-  selectBook: {
-    marginBottom: '10px'
-  },
-  title: {
-    marginBottom: '10px'
-  },
-  editor: {
-    marginBottom: '10px'
   },
   save: {
     width: '20%',

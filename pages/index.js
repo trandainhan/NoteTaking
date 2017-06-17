@@ -9,6 +9,7 @@ import SplitView from '../components/SplitView'
 import List from '../components/List'
 import Header from '../components/Header'
 import TopBar from '../components/TopBar'
+import SearchBox from '../components/SearchBox'
 
 import NotePreview from '../container/NotePreview'
 import NoteBook from '../container/NoteBook'
@@ -25,21 +26,28 @@ class IndexPage extends Component {
   render () {
     const { noteBooks, selectedNote } = this.props
     return (
-      <div style={{margin: 20}}>
+      <div style={styles.indexPage}>
         <Header />
         <TopBar />
-        <SplitView leftWidth={'20%'} rightWidth={'80%'}>
-          <List>
+        <SplitView leftWidth={'30%'} rightWidth={'70%'}>
+          <List className='padding'>
+            <SearchBox className='marginBottom' />
             {
               isEmpty(noteBooks) ? "No NoteBook Yet" : values(noteBooks).map((noteBook) => (
                 <NoteBook key={noteBook.id} noteBook={noteBook} />
               ))
             }
           </List>
-          <NoteView note={selectedNote} />
+          <NoteView note={selectedNote} className='padding' />
         </SplitView>
       </div>
     )
+  }
+}
+
+const styles = {
+  indexPage: {
+    margin: '20px'
   }
 }
 

@@ -5,7 +5,7 @@ import classNames from 'classnames'
 class Input extends Component {
   render () {
     const { value, onChange, className } = this.props
-    const props = omit(['value', 'onChange'], this.props)
+    const props = omit(['value', 'onChange', 'className'], this.props)
     const clazzName = classNames('form-control', className)
     return (
       <input
