@@ -117,13 +117,19 @@ app.prepare().then(() => {
   })
 
   server.delete('/note', (req, res) => {
-    const { id } = req.query
+    const { id, noteBookId } = req.query
     if (id) {
       Note.remove({_id: id}, (err, result) => {
         if (err) {
           res.status(404).json(err)
         }
-        res.status(202).json(result)
+        NoteBook.findById(noteBookId, (err, noteBook) => {
+          const noteIndex = noteBook.notes.indexOf(id)
+          noteBook.notes.splice(noteIndex, 1)
+          noteBook.save((err) => {
+            res.status(202).json(result)
+          })
+        })
       })
     }
   })
