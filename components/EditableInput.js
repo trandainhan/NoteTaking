@@ -11,6 +11,7 @@ class EditableInput extends Component {
     this.handleEdit = () => this._handleEdit()
     this.handleDone = () => this._handleDone()
     this.handleChange = (e) => this.props.onChange(e.target.value)
+    this.handleKeyPress = (e) => this._handleKeyPress(e.key)
   }
   _handleEdit () {
     this.setState({
@@ -23,6 +24,14 @@ class EditableInput extends Component {
       isEdit: false
     })
   }
+  _handleKeyPress (key) {
+    if (key === 'Enter') {
+      this.props.onFinishEdit && this.props.onFinishEdit(this.props.value)
+      this.setState({
+        isEdit: false
+      })
+    }
+  }
   render () {
     const { isEdit } = this.state
     const { value, style = {} } = this.props
@@ -33,6 +42,7 @@ class EditableInput extends Component {
             style={styles.inputValue}
             value={value}
             onChange={this.handleChange}
+            onKeyPress={this.handleKeyPress}
           />
           <span
             style={styles.okIcon}
