@@ -17,6 +17,7 @@ import NoteView from '../container/NoteView'
 
 import { fetchNoteBooks } from '../action/NoteBook'
 import { fetchNotes } from '../action/Note'
+import { updateSearchNote } from '../action'
 
 class IndexPage extends Component {
   componentDidMount () {
@@ -24,14 +25,18 @@ class IndexPage extends Component {
     this.props.dispatch(fetchNotes())
   }
   render () {
-    const { noteBooks, selectedNote } = this.props
+    const { noteBooks, selectedNote, searchKey, handleChangeSearchKey } = this.props
     return (
       <div style={styles.indexPage}>
         <Header />
         <TopBar />
         <SplitView leftWidth={'30%'} rightWidth={'70%'}>
           <List className='padding'>
-            <SearchBox className='marginBottom' />
+            <SearchBox
+              className='marginBottom'
+              value={searchKey}
+              onChange={handleChangeSearchKey}
+            />
             {
               isEmpty(noteBooks) ? "No NoteBook Yet" : values(noteBooks).map((noteBook) => (
                 <NoteBook key={noteBook.id} noteBook={noteBook} />
@@ -55,12 +60,31 @@ const getSelectedNote = (state, noteId) => {
   return state.notes[noteId] || values(state.notes)[0]
 }
 
+const getNoteBookBySearchKey = (noteBooks, searchKey) => {
+  if (!searchKey) return noteBooks
+  const result = {}
+  Object.keys(noteBooks).forEach((key) => {
+    noteBooks[key].title.includes(searchKey) && (result[key] = noteBooks[key])
+  })
+  return result
+}
+
 const mapStateToProps = (state) => {
-  const { noteBooks, selectedNoteId } = state
+  const { noteBooks, selectedNoteId, searchKey } = state
   return {
-    noteBooks: noteBooks,
-    selectedNote: getSelectedNote(state, selectedNoteId)
+    noteBooks: getNoteBookBySearchKey(noteBooks, searchKey),
+    selectedNote: getSelectedNote(state, selectedNoteId),
+    searchKey: searchKey
   }
 }
 
-export default withRedux(initStore, mapStateToProps)(IndexPage)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleChangeSearchKey: (e) => {
+      dispatch(updateSearchNote(e.target.value))
+    },
+    dispatch
+  }
+}
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(IndexPage)
