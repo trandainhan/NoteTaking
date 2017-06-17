@@ -9,3 +9,11 @@
 .padding {
   padding: 10px;
 }
+
+.form-control {
+  height: 30px
+}
+
+.controlHeight {
+  height: 30px;
+}

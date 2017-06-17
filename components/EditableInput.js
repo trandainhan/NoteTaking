@@ -37,7 +37,7 @@ class EditableInput extends Component {
     const { value, style = {} } = this.props
     if (isEdit) {
       return (
-        <div style={style}>
+        <div className='controlHeight' style={style}>
           <Input
             style={styles.inputValue}
             value={value}
@@ -53,7 +53,7 @@ class EditableInput extends Component {
       )
     } else {
       return (
-        <div style={style}>
+        <div className='controlHeight' style={style}>
           <span style={styles.spanValue} >{value}</span>
           <span
             style={styles.editIcon}
@@ -68,9 +68,9 @@ class EditableInput extends Component {
 
 const styles = {
   inputValue: {
-    width: '80%',
+    width: '90%',
     display: 'inline-block',
-    marginRight: '10px'
+    marginRight: '5px'
   },
   spanValue: {
     fontSize: '20px',
@@ -78,11 +78,13 @@ const styles = {
   },
   okIcon: {
     cursor: 'pointer',
-    marginTop: '5px'
+    marginTop: '5px',
+    color: '#01a701'
   },
   editIcon: {
     cursor: 'pointer',
-    marginTop: '5px'
+    marginTop: '5px',
+    color: '#01a701'
   }
 }
 

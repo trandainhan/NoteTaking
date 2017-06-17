@@ -36,8 +36,9 @@ const NoteBook = ({
 
 const styles = {
   editableInput: {
-    marginRight: '20px',
+    paddingRight: '20px',
     display: 'flex',
+    background: '#e6e6e6'
   },
   title: {
     borderBottom: 'solid 1px black',
@@ -80,7 +81,7 @@ const getNoteBySearchKey = (state, notes) => {
 const getNotes = (state, noteBook) => {
   const { searchKey, noteBooks, notes } = state
   const notesByBook = findNotesByNoteBook(noteBook, notes)
-  return getNoteBySearchKey(state, notes)
+  return getNoteBySearchKey(state, notesByBook)
 }
 
 const mapStateToProps = (state, { noteBook }) => {
