@@ -8,6 +8,7 @@ import Select from 'react-select'
 
 import Editor from '../components/Editor'
 import Header from '../components/Header'
+import Input from '../components/Input'
 
 import { addNewNote, updateNote } from '../action/Note'
 
@@ -79,9 +80,8 @@ class NewNote extends Component {
           value={selectedNoteBookId}
           onChange={this.updateSelectedNoteBook}
         />
-        <input
+        <Input
           style={styles.title}
-          className='form-control'
           value={title}
           onChange={this.updateTitle}
           placeholder='Your Note title here...'

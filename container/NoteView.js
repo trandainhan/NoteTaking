@@ -2,12 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { updateNote } from '../action/Note'
 import Editor from '../components/Editor'
+import Input from '../components/Input'
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 
 const NoteView = ({title, content, updateNoteContent, updateNoteTitle}) => (
   <div>
-    <input
-      className='form-control'
+    <Input
       value={title || ''}
       onChange={updateNoteTitle}
       style={styles.title}

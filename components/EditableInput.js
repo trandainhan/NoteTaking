@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
+import Input from './Input'
 
 class EditableInput extends Component {
   constructor (props) {
@@ -28,9 +29,8 @@ class EditableInput extends Component {
     if (isEdit) {
       return (
         <div style={style}>
-          <input
+          <Input
             style={styles.inputValue}
-            className='form-control'
             value={value}
             onChange={this.handleChange}
           />

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Router from 'next/router'
 import fetch from '../api/Fetch';
 import Header from '../components/Header'
+import Input from '../components/Input'
 import NoteBook from '../models/NoteBook'
 
 class NewNoteBook extends Component {
@@ -36,9 +37,8 @@ class NewNoteBook extends Component {
       <div style={styles.newBook}>
         <Header />
         <Link href='/'><a style={styles.back} className='btn btn-primary'>Back</a></Link>
-        <input
+        <Input
           style={styles.title}
-          className='form-control'
           value={title}
           onChange={this.handleChange}
           placeholder='Your NoteBook title here...'
