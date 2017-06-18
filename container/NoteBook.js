@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import NotePreview from './NotePreview'
 import { values, pick, filter } from 'lodash/fp'
 
+import createConfirmation from '../hoc/createConfirmation'
+
 import { deleteNoteBook, updateNoteBook, saveNoteBook } from '../action/NoteBook'
 
 import EditableInput from '../components/EditableInput'
@@ -93,7 +95,9 @@ const mapStateToProps = (state, { noteBook }) => {
 const mapDispatchToProps = (dispatch, { noteBook }) => {
   return {
     deleteNoteBook: () => {
-      dispatch(deleteNoteBook(noteBook))
+      createConfirmation('Delete Note Book', () => {
+        dispatch(deleteNoteBook(noteBook))
+      })
     },
     updateNoteBookTitle: (newTitle) => {
       const updatedNoteBook = {

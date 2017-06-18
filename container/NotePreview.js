@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { convertFromRaw, ContentState } from 'draft-js'
 import { selectNote, deleteNote } from '../action/Note'
 
+import createConfirmation from '../hoc/createConfirmation'
+
 const NotePreview = ({title, createdDate, setSelectedNote, deleteNote}) => {
   return (
     <div className='note-preview' style={styles.notePreview}>
@@ -59,7 +61,10 @@ const mapDispatchToProps = (dispatch, { note }) => {
       dispatch(selectNote(note.id))
     },
     deleteNote: () => {
-      dispatch(deleteNote(note))
+      createConfirmation('Delete Note?', () => {
+        debugger
+        dispatch(deleteNote(note))
+      })
     },
     ...note
   }
