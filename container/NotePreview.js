@@ -62,7 +62,6 @@ const mapDispatchToProps = (dispatch, { note }) => {
     },
     deleteNote: () => {
       createConfirmation('Delete Note?', () => {
-        debugger
         dispatch(deleteNote(note))
       })
     },
