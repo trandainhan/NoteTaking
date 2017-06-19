@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "next build",
-    "start": "babel-node server/index.js --presets es2015,stage-3",
-    "dev": "nodemon --watch server/ --debug server/index.js --exec babel-node"
+    "build": "next build && babel ./ --ignore ./node_modules -d dist",
+    "start": "babel-node server/index.js",
+    "dev": "nodemon --watch server/ --debug server/index.js --exec babel-node",
+    "prod": "NODE_ENV=production node dist/server/index.js"
   },
   "author": "",
   "license": "ISC",
