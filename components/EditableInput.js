@@ -34,7 +34,7 @@ class EditableInput extends Component {
   }
   render () {
     const { isEdit } = this.state
-    const { value, style = {} } = this.props
+    const { value, style = {}, textClassName } = this.props
     if (isEdit) {
       return (
         <div className='controlHeight' style={style}>
@@ -54,7 +54,11 @@ class EditableInput extends Component {
     } else {
       return (
         <div className='controlHeight' style={style}>
-          <span style={styles.spanValue} >{value}</span>
+          <span
+            className={classNames(textClassName)}
+            style={styles.spanValue} >
+            {value}
+          </span>
           <span
             style={styles.editIcon}
             className='glyphicon glyphicon-edit'

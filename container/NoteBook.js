@@ -22,6 +22,7 @@ const NoteBook = ({
       style={styles.editableInput}
       onChange={updateNoteBookTitle}
       onFinishEdit={saveNoteBook}
+      textClassName='overflowText'
     />
     <span
       style={styles.remove}

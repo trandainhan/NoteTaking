@@ -17,3 +17,9 @@
 .controlHeight {
   height: 30px;
 }
+
+.overflowText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
