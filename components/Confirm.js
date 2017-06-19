@@ -21,7 +21,10 @@ class Confirm extends Component {
   }
   render () {
     return (
-      <Modal show={true} onClose={this.abort} onSave={this.confirm} title={this.props.title} />
+      <Modal show={true} onClose={this.abort} onSave={this.confirm}>
+        <Modal.Header title={this.props.title} />
+        <Modal.Footer></Modal.Footer>
+      </Modal>
     )
   }
 }

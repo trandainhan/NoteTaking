@@ -1,12 +1,31 @@
 import React, { Component } from 'react'
 import Button from './Button'
 
+const isHeader = (ele) => {return ele.type.displayName === 'Header'}
+const isBody = (ele) => {return ele.type.displayName === 'Body'}
+const isFooter = (ele) => {return ele.type.displayName === 'Footer'}
+
+const renderModalChildren = (children, type, props) => {
+  if (!children) return null
+  const childrens = !children.length ? [children] : children
+  const result = []
+  childrens.forEach((ele) => {
+    if (type(ele)) {
+      result.push(<ele.type {...ele.props} {...props} />)
+    }
+  })
+  return result
+}
+
 class Modal extends Component {
   constructor (props) {
     super(props)
     this.state = { show: this.props.show || false }
     this.handleClose = (e) => this._handleClose()
     this.handleSave = (e) => this._handleSave()
+    this.renderHeader = () => this._renderHeader()
+    this.renderBody = () => this._renderBody()
+    this.renderFooter = () => this._renderFooter()
   }
   _handleClose() {
     this.setState({
@@ -25,17 +44,33 @@ class Modal extends Component {
       show: nextProps.show
     })
   }
+  _renderHeader () {
+    return this._renderChild(isHeader, {
+      onClose: this.handleClose
+    })
+  }
+  _renderBody () {
+    return this._renderChild(isBody)
+  }
+  _renderFooter () {
+    return this._renderChild(isFooter, {
+      onClose: this.handleClose,
+      onSave: this.handleSave
+    })
+  }
+  _renderChild (type, additionProps) {
+    return renderModalChildren(this.props.children, type, additionProps)
+  }
   render () {
-    const { children, title } = this.props
     if (!this.state.show) return null;
     return (
       <div>
         <div className="modal show" tabIndex="-1" role="dialog">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
-              <Header onClose={this.handleClose} title={title} />
-              <Body></Body>
-              <Footer onClose={this.handleClose} onSave={this.handleSave} />
+              {this.renderHeader()}
+              {this.renderBody()}
+              {this.renderFooter()}
             </div>
           </div>
         </div>
@@ -46,7 +81,7 @@ class Modal extends Component {
   }
 }
 
-export const Header = ({onClose, title}) => (
+export const Header = ({onClose, title, children}) => (
   <div className="modal-header">
     <Button
       className='close'
@@ -56,6 +91,7 @@ export const Header = ({onClose, title}) => (
       <span aria-hidden="true">&times;</span>
     </Button>
     <h4 className="modal-title">{title}</h4>
+    {children}
   </div>
 )
 
@@ -66,10 +102,11 @@ export const Body = ({children}) => (
   </div>
 )
 
-export const Footer = ({onClose, onSave}) => (
+export const Footer = ({onClose, onSave, children}) => (
   <div className="modal-footer">
     <Button onClick={onClose}>Close</Button>
     <Button onClick={onSave}>Save changes</Button>
+    {children}
   </div>
 )
 
