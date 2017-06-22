@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { uniqueId } from 'lodash/fp'
 import Button from './Button'
 
 const isHeader = (ele) => {return ele.type.displayName === 'Header'}
@@ -11,7 +12,7 @@ const renderModalChildren = (children, type, props) => {
   const result = []
   childrens.forEach((ele) => {
     if (type(ele)) {
-      result.push(<ele.type {...ele.props} {...props} />)
+      result.push(<ele.type key={uniqueId('modalChild_')} {...ele.props} {...props} />)
     }
   })
   return result
