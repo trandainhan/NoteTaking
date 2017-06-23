@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { uniqueId } from 'lodash/fp'
 import Button from './Button'
 
-const isHeader = (ele) => {return ele.type.displayName === 'Header'}
-const isBody = (ele) => {return ele.type.displayName === 'Body'}
-const isFooter = (ele) => {return ele.type.displayName === 'Footer'}
+const isHeader = (ele) => {return ele.type.displayName === 'Modal.Header'}
+const isBody = (ele) => {return ele.type.displayName === 'Modal.Body'}
+const isFooter = (ele) => {return ele.type.displayName === 'Modal.Footer'}
 
 const renderModalChildren = (children, type, props) => {
   if (!children) return null
   const childrens = !children.length ? [children] : children
-  const result = []
+  let result = []
   childrens.forEach((ele) => {
     if (type(ele)) {
       result.push(<ele.type key={uniqueId('modalChild_')} {...ele.props} {...props} />)
@@ -82,7 +82,7 @@ class Modal extends Component {
   }
 }
 
-export const Header = ({onClose, title, children}) => (
+const Header = ({onClose, title, children}) => (
   <div className="modal-header">
     <Button
       className='close'
@@ -95,21 +95,25 @@ export const Header = ({onClose, title, children}) => (
     {children}
   </div>
 )
+Header.displayName = 'Modal.Header'
 
 
-export const Body = ({children}) => (
+const Body = ({children}) => (
   <div className="modal-body">
     {children}
   </div>
 )
+Body.displayName = 'Modal.Body'
 
-export const Footer = ({onClose, onSave, children}) => (
+
+const Footer = ({onClose, onSave, children}) => (
   <div className="modal-footer">
     <Button onClick={onClose}>Close</Button>
     <Button onClick={onSave}>Save changes</Button>
     {children}
   </div>
 )
+Footer.displayName = 'Modal.Footer'
 
 Modal.Header = Header
 Modal.Body = Body
