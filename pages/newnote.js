@@ -61,7 +61,8 @@ class NewNote extends Component {
       }
     })
     this.setState({
-      noteBooks: noteBooks
+      noteBooks: noteBooks,
+      selectedNoteBookId: noteBooks[0].value
     })
   }
   render () {

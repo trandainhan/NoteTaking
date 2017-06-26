@@ -23,3 +23,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}

@@ -2,25 +2,32 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 import classNames from 'classnames'
+import { isUndefined } from 'lodash/fp'
 
 import { updateNote } from '../action/Note'
 import Editor from '../components/Editor'
 import Input from '../components/Input'
 
 
-const NoteView = ({title, content, updateNoteContent, updateNoteTitle, className}) => (
-  <div className={classNames('NoteView', className)}>
-    <Input
-      className='marginBottom'
-      value={title || ''}
-      onChange={updateNoteTitle}
-    />
-    <Editor
-      editorState={content && EditorState.createWithContent(convertFromRaw(content))}
-      onChange={updateNoteContent}
-    />
-  </div>
-)
+const NoteView = ({note, updateNoteContent, updateNoteTitle, className}) => {
+  const clazzName = classNames('NoteView', className, {
+    'disabled': isUndefined(note)
+  })
+  const { title, content } = note || {}
+  return (
+    <div className={clazzName}>
+      <Input
+        className='marginBottom'
+        value={title || ''}
+        onChange={updateNoteTitle}
+      />
+      <Editor
+        editorState={content && EditorState.createWithContent(convertFromRaw(content))}
+        onChange={updateNoteContent}
+      />
+    </div>
+  )
+}
 
 const mapDispatchToProps = (dispatch, { note }) => {
   return {
@@ -41,7 +48,7 @@ const mapDispatchToProps = (dispatch, { note }) => {
         }, note.id))
       }
     },
-    ...note
+    note
   }
 }
 
