@@ -19,7 +19,7 @@ import { fetchNoteBooks } from '../action/NoteBook'
 import { fetchNotes } from '../action/Note'
 import { updateSearchNote } from '../action'
 
-class IndexPage extends Component {
+class Note extends Component {
   componentDidMount () {
     this.props.dispatch(fetchNoteBooks())
     this.props.dispatch(fetchNotes())
@@ -105,4 +105,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(IndexPage)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Note)

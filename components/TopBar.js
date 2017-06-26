@@ -4,13 +4,15 @@ import Link from 'next/link'
 
 import { addNewNote } from '../action/Note'
 
+import Button from './Button'
+
 const TopBar = ({handler}) => (
   <div style={styles.topBar} >
     <Link prefetch href='/newbook'>
-      <button style={styles.addNewNoteBook} className='btn btn-primary'>Add New Note Book</button>
+      <Button style={styles.addNewNoteBook}>Add New Note Book</Button>
     </Link>
     <Link prefetch href='/newnote'>
-      <button className='btn btn-primary'>Add New Note</button>
+      <Button className='btn btn-primary'>Add New Note</Button>
     </Link>
   </div>
 )
