@@ -71,7 +71,7 @@ class NewNote extends Component {
       <div style={styles.newNote} >
         <Header />
         <Head>
-          <link rel="stylesheet" href="/static/react-select.css" />
+          <link rel="stylesheet" href="/static/css/react-select.css" />
         </Head>
         <Link href='/'><a className='btn btn-primary marginBottom'>Back</a></Link>
         <Select

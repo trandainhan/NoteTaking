@@ -6,6 +6,7 @@ import bodyParser from 'body-parser'
 
 import Note from '../database/Note'
 import NoteBook from '../database/NoteBook'
+import User from '../database/User'
 import database from '../config/database'
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -25,7 +26,6 @@ app.prepare().then(() => {
   server.get('/notebook', (req, res) => {
     NoteBook.find().lean().exec((err, noteBooks) => {
       if (err) {
-        console.log('Something wrong in /notebooks')
         res.status(500).send('Something broken!')
       }
       res.status(200).json(noteBooks)
@@ -132,6 +132,39 @@ app.prepare().then(() => {
         })
       })
     }
+  })
+
+  server.post('/register', (req, res) => {
+    const { username, password, confirmPassword } = req.body
+    if (password !== confirmPassword) {
+      res.status(400).json({
+        message: 'Password and Confirm Password must be the same'
+      })
+    }
+    if (username && password ) {
+      const user = new User({
+        username: username,
+        password: password
+      })
+      return user.save().then((user) => {
+        res.status(201).json({
+          message: "Successfully created user"
+        })
+      })
+    }
+    res.status(400).json({
+      message: 'Username or Password must not empty'
+    })
+  })
+
+  server.post('/login', (req, res) => {
+    const { username, password } = req.body
+    if (username && password ) {
+      
+    }
+    res.status(400).json({
+      message: 'Username or Password must not empty'
+    })
   })
 
   server.get('*', (req, res) => {

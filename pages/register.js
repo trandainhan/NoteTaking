@@ -12,11 +12,13 @@ class NewNoteBook extends Component {
     super(props)
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     }
     this.changeUsername = e => this._changeUsername(e.target.value)
     this.changePassword = e => this._changePassword(e.target.value)
-    this.login = e => this._login()
+    this.changeConfirmPassword = e => this._changeConfirmPassword(e.target.value)
+    this.register = e => this._register()
   }
   _changeUsername (value) {
     this.setState({
@@ -28,30 +30,44 @@ class NewNoteBook extends Component {
       password: value
     })
   }
-  async _login () {
-    const { username, password } = this.state
+  _changeConfirmPassword (value) {
+    this.setState({
+      confirmPassword: value
+    })
+  }
+  async _register () {
+    const { username, password, confirmPassword } = this.state
+    if (password !== confirmPassword) return
     if (!username || !password) return
-    const res = await fetch.post('/login', this.state)
-    if (res.status === 200) {
+    const res = await fetch.post('/register', this.state)
+    if (res.status === 201) {
       Router.push({
-        pathname: '/'
+        pathname: '/login',
+        query: {
+          username: username,
+          password: password
+        }
       })
     }
   }
   render () {
-    const { username, password } = this.state
+    const { username, password, confirmPassword } = this.state
     return (
       <div style={styles.login}>
         <Header />
-        <div clasName="form-group">
+        <div className="form-group">
           <label htmlFor="username">Email address:</label>
           <Input type="text" value={username} onChange={this.changeUsername} />
         </div>
-        <div clasName="form-group">
+        <div className="form-group">
           <label htmlFor="pwd">Password:</label>
           <Input type="password" value={password} onChange={this.changePassword} />
         </div>
-        <Button style={styles.button} onClick={this.login}>Login</Button>
+        <div className="form-group">
+          <label htmlFor="pwd">Confirm Password:</label>
+          <Input type="password" value={confirmPassword} onChange={this.changeConfirmPassword} />
+        </div>
+        <Button style={styles.button} onClick={this.register}>Login</Button>
       </div>
     )
   }
