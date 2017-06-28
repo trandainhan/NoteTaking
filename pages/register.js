@@ -39,7 +39,7 @@ class NewNoteBook extends Component {
     const { username, password, confirmPassword } = this.state
     if (password !== confirmPassword) return
     if (!username || !password) return
-    const res = await fetch.post('/register', this.state)
+    const res = await fetch.post('/user/register', this.state)
     if (res.status === 201) {
       Router.push({
         pathname: '/login'

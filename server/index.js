@@ -4,10 +4,13 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 import bodyParser from 'body-parser'
 
-import Note from '../database/Note'
-import NoteBook from '../database/NoteBook'
 import User from '../database/User'
 import database from '../config/database'
+
+import NoteRouter from './routes/note.route'
+import NoteBookRouter from './routes/notebook.route'
+import UserRouter from './routes/user.route'
+import AuthenticationRouter from './routes/authentication.route'
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -22,148 +25,10 @@ app.prepare().then(() => {
 
   // Connect to database
   mongoose.connect(database.uri)
-
-  server.get('/notebook', (req, res) => {
-    NoteBook.find().lean().exec((err, noteBooks) => {
-      if (err) {
-        res.status(500).send('Something broken!')
-      }
-      res.status(200).json(noteBooks)
-    })
-  })
-
-  server.post('/notebook', (req, res) => {
-    const { title, id, notes } = req.body
-    if (id) {
-      NoteBook.findByIdAndUpdate(id, {
-        title: title,
-        notes: notes
-      }, (err, noteBook) => {
-        if (err) {
-          json.status(400).json(err)
-          return
-        }
-        res.status(201).json(noteBook)
-      })
-    } else {
-      const noteBook = new NoteBook({
-        title: title || 'Untitle'
-      })
-
-      noteBook.save().then((noteBook) => {
-        res.status(200).json({
-          id: noteBook.id,
-          title: noteBook.title
-        })
-      })
-    }
-  })
-
-  server.delete('/notebook', (req, res) => {
-    const { id } = req.query
-    if (id) {
-      NoteBook.remove({_id: id}, (err, doc) => {
-        Note.deleteMany({noteBookId: id }, (err, docs) => {
-          res.status(202).json(doc)
-        })
-      })
-    }
-  })
-
-  server.post('/note', (req, res) => {
-    const { title, content, noteBookId, id } = req.body
-    if (id) {
-      Note.findByIdAndUpdate(id, {
-        title: title,
-        content: content,
-        noteBookId: noteBookId
-      }, (err, note) => {
-        if (err) {
-          json.status(400).send("Somthing wrong")
-          return
-        }
-        res.status(200).json(note.toJSON())
-      })
-    } else {
-      const note = new Note({
-        title: title,
-        content: content,
-        noteBookId: noteBookId
-      })
-      const findNoteBookAndAddNote = (err, note) => {
-        if (err) {
-          res.status(400).send('Can not save')
-        }
-        NoteBook.findById(noteBookId, (err, noteBook) => {
-          if (noteBook && !noteBook.notes.includes(note.id)) {
-            noteBook.notes.push(note.id)
-            noteBook.save()
-          }
-        })
-        res.status(200).json(note.toJSON())
-      }
-      note.save(findNoteBookAndAddNote)
-    }
-  })
-
-  server.get('/note', (req, res) => {
-    Note.find().lean().exec((err, notes) => {
-      if (err) {
-        console.log('Something wrong in /note')
-        res.status(500).json(err)
-      }
-      res.status(200).json(notes)
-    })
-  })
-
-  server.delete('/note', (req, res) => {
-    const { id, noteBookId } = req.query
-    if (id) {
-      Note.remove({_id: id}, (err, result) => {
-        if (err) {
-          res.status(404).json(err)
-        }
-        NoteBook.findById(noteBookId, (err, noteBook) => {
-          const noteIndex = noteBook.notes.indexOf(id)
-          noteBook.notes.splice(noteIndex, 1)
-          noteBook.save((err) => {
-            res.status(202).json(result)
-          })
-        })
-      })
-    }
-  })
-
-  server.post('/register', (req, res) => {
-    const { username, password, confirmPassword } = req.body
-    if (password !== confirmPassword) {
-      res.status(400).json({
-        message: 'Password and Confirm Password must be the same'
-      })
-    }
-    if (username && password ) {
-      return User.find({username: username}, (err, user) => {
-        if (user.length) {
-          return res.status(400).json({
-            message: 'Username already exists'
-          })
-        }
-        const newUser = new User({
-          username: username,
-          password: password
-        })
-        return newUser.save().then((result) => {
-          res.status(201).json({
-            message: "Successfully created user",
-            data: result.toJSON()
-          })
-        })
-      })
-    }
-    res.status(400).json({
-      message: 'Username or Password must not empty'
-    })
-  })
+  NoteBookRouter(server)
+  NoteRouter(server)
+  UserRouter(server)
+  AuthenticationRouter(server)
 
   server.post('/login', (req, res) => {
     const { username, password } = req.body
