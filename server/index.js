@@ -142,13 +142,21 @@ app.prepare().then(() => {
       })
     }
     if (username && password ) {
-      const user = new User({
-        username: username,
-        password: password
-      })
-      return user.save().then((user) => {
-        res.status(201).json({
-          message: "Successfully created user"
+      return User.find({username: username}, (err, user) => {
+        if (user.length) {
+          return res.status(400).json({
+            message: 'Username already exists'
+          })
+        }
+        const newUser = new User({
+          username: username,
+          password: password
+        })
+        return newUser.save().then((result) => {
+          res.status(201).json({
+            message: "Successfully created user",
+            data: result.toJSON()
+          })
         })
       })
     }
@@ -160,7 +168,7 @@ app.prepare().then(() => {
   server.post('/login', (req, res) => {
     const { username, password } = req.body
     if (username && password ) {
-      
+
     }
     res.status(400).json({
       message: 'Username or Password must not empty'

@@ -42,11 +42,7 @@ class NewNoteBook extends Component {
     const res = await fetch.post('/register', this.state)
     if (res.status === 201) {
       Router.push({
-        pathname: '/login',
-        query: {
-          username: username,
-          password: password
-        }
+        pathname: '/login'
       })
     }
   }
@@ -56,7 +52,7 @@ class NewNoteBook extends Component {
       <div style={styles.login}>
         <Header />
         <div className="form-group">
-          <label htmlFor="username">Email address:</label>
+          <label htmlFor="username">Username:</label>
           <Input type="text" value={username} onChange={this.changeUsername} />
         </div>
         <div className="form-group">
