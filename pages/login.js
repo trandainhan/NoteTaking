@@ -52,6 +52,7 @@ class NewNoteBook extends Component {
           <Input type="password" value={password} onChange={this.changePassword} />
         </div>
         <Button style={styles.button} onClick={this.login}>Login</Button>
+        <Link prefetch href='/register'><Button style={styles.button} >Register</Button></Link>
       </div>
     )
   }
@@ -64,7 +65,8 @@ const styles = {
     marginTop: '20px'
   },
   button: {
-    marginTop: '10px'
+    marginTop: '10px',
+    marginRight: '10px'
   }
 }
 

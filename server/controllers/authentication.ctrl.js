@@ -32,16 +32,16 @@ export const verify = (req, res) => {
   })
 }
 
-export const authenMiddleware = (req, resp, next) => {
-
+export const authenMiddleware = (req, res, next) => {
   const token = req.headers['x-access-token'];
   if (token) {
-    jwt.verify(token, jwtSecret, function (err, decoded) {
+    jwt.verify(token, jwtSecret, (err, decoded) => {
       if (err) {
         return res.status(403).json({
           success: false,
           message: 'Failed to authenticate token.'
         });
+
       } else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;
@@ -49,10 +49,6 @@ export const authenMiddleware = (req, resp, next) => {
       }
     })
   } else {
-    return resp.status(403).send({
-        success: false,
-        message: 'No token provided.'
-    });
+    res.redirect('/login');
   }
-
 }

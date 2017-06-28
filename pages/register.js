@@ -63,7 +63,8 @@ class NewNoteBook extends Component {
           <label htmlFor="pwd">Confirm Password:</label>
           <Input type="password" value={confirmPassword} onChange={this.changeConfirmPassword} />
         </div>
-        <Button style={styles.button} onClick={this.register}>Login</Button>
+        <Button style={styles.button} onClick={this.register}>Register</Button>
+        <Link prefetch href='/login'><Button style={styles.button}>Login</Button></Link>
       </div>
     )
   }
@@ -76,7 +77,8 @@ const styles = {
     marginTop: '20px'
   },
   button: {
-    marginTop: '10px'
+    marginTop: '10px',
+    marginRight: '10px'
   }
 }
 
