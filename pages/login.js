@@ -31,7 +31,7 @@ class NewNoteBook extends Component {
   async _login () {
     const { username, password } = this.state
     if (!username || !password) return
-    const res = await fetch.post('/login', this.state)
+    const res = await fetch.post('/authenticate', this.state)
     if (res.status === 200) {
       Router.push({
         pathname: '/'

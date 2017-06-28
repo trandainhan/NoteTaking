@@ -1,60 +1,27 @@
 import express from 'express'
 import User from '../../database/User'
+import { verify, authenMiddleware } from '../controllers/authentication.ctrl'
+
+import { some } from 'lodash/fp'
+
 var router = express.Router()
 
-
-
-var authenication = {
-
-  verify: (req, resp) => {
-    logger.info("Verify username and password");
-
-    User.findOne({ name: req.body.name }, (err, user) => {
-      if (err) {
-        logger.error(err.message);
-        throw err;
-      }
-      if (!user) {
-      resp.json({ success: false, message: 'Authentication failed. User not found.' });
-      } else {
-
-      if (user.password != req.body.password) {
-        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
-      } else {
-        var token = jwt.sign(user, config.dbConnectionPool.secret, {
-          expiresIn: 60*60
-        });
-        resp.json({
-          success: true,
-          message: 'Enjoy your token',
-          token: token
-        })
-      }
-      }
-    })
-  },
-
-  authenMiddleware: (req, resp, next) => {
-
-    var token = req.headers['x-access-token'];
-    if (token) {
-      jwt.verify(token, config.dbConnectionPool.secret, function (err, decoded) {
-        if (err) {
-          return resp.json({ success: false, message: 'Failed to authenticate token.' });
+const unless = (paths, middleware) => {
+    return function(req, res, next) {
+        const isHave = some((path) => {
+          return path === req.path || req.path.includes(path)
+        }, paths)
+        if (isHave) {
+          return next();
         } else {
-          // if everything is good, save to request for use in other routes
-          req.decoded = decoded;
-          next();
+            return middleware(req, res, next);
         }
-      })
-    } else {
-      return resp.status(403).send({
-          success: false,
-          message: 'No token provided.'
-      });
-    }
+    };
+};
 
-  }
+export default (server) => {
+  router.route('/').post(verify)
+
+  server.use('/authenticate', router)
+  server.use(unless(['/login', '/register', '/static/', '/_next/'], authenMiddleware))
 }
-
-export default authenication

@@ -7,5 +7,3 @@ export default (server) => {
 
   server.use('/user', router)
 }
-
-export default router

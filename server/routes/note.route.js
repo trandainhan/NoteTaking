@@ -11,5 +11,3 @@ export default (server) => {
 
   server.use('/note', router)
 }
-
-export default router
