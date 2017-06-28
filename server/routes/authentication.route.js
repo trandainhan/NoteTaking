@@ -1,8 +1,8 @@
 import express from 'express'
+import { some } from 'lodash/fp'
+
 import User from '../../database/User'
 import { verify, authenMiddleware } from '../controllers/authentication.ctrl'
-
-import { some } from 'lodash/fp'
 
 var router = express.Router()
 
@@ -23,5 +23,5 @@ export default (server) => {
   router.route('/').post(verify)
 
   server.use('/authenticate', router)
-  server.use(unless(['/login', '/register', '/static/', '/_next/'], authenMiddleware))
+  server.use(unless(['/login', '/register', '/static', '/_next'], authenMiddleware))
 }

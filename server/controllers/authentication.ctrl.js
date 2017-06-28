@@ -1,5 +1,6 @@
 import User from '../../database/User'
 import { jwtSecret } from '../../config/index'
+import jwt from 'jsonwebtoken'
 
 export const verify = (req, res) => {
   const { username, password } = req.body
@@ -33,7 +34,7 @@ export const verify = (req, res) => {
 }
 
 export const authenMiddleware = (req, res, next) => {
-  const token = req.headers['x-access-token'];
+  const token = req.cookies['x-access-token'];
   if (token) {
     jwt.verify(token, jwtSecret, (err, decoded) => {
       if (err) {

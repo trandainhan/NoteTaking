@@ -7,6 +7,8 @@ import Header from '../components/Header'
 import Input from '../components/Input'
 import Button from '../components/Button'
 
+import { setCookie } from '../utils/CookieUtils'
+
 class NewNoteBook extends Component {
   constructor (props) {
     super(props)
@@ -33,6 +35,7 @@ class NewNoteBook extends Component {
     if (!username || !password) return
     const res = await fetch.post('/authenticate', this.state)
     if (res.status === 200) {
+      setCookie('x-access-token', res.data.token)
       Router.push({
         pathname: '/'
       })
@@ -43,11 +46,11 @@ class NewNoteBook extends Component {
     return (
       <div style={styles.login}>
         <Header />
-        <div clasName="form-group">
-          <label htmlFor="username">Email address:</label>
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
           <Input type="text" value={username} onChange={this.changeUsername} />
         </div>
-        <div clasName="form-group">
+        <div className="form-group">
           <label htmlFor="pwd">Password:</label>
           <Input type="password" value={password} onChange={this.changePassword} />
         </div>

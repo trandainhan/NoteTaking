@@ -3,6 +3,7 @@ import next from 'next'
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
 
 import User from '../database/User'
 import database from '../config/database'
@@ -23,22 +24,16 @@ app.prepare().then(() => {
   server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({ extended: false }));
 
+  server.use(cookieParser())
+
   // Connect to database
   mongoose.connect(database.uri)
+
+  // Setup routes
+  AuthenticationRouter(server)
   NoteBookRouter(server)
   NoteRouter(server)
   UserRouter(server)
-  AuthenticationRouter(server)
-
-  server.post('/login', (req, res) => {
-    const { username, password } = req.body
-    if (username && password) {
-
-    }
-    res.status(400).json({
-      message: 'Username or Password must not empty'
-    })
-  })
 
   server.get('*', (req, res) => {
     return handle(req, res)
