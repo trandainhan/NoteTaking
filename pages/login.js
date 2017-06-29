@@ -55,8 +55,16 @@ class NewNoteBook extends Component {
           <label htmlFor="pwd">Password:</label>
           <Input type="password" value={password} onChange={this.changePassword} />
         </div>
-        <Button style={styles.button} onClick={this.login}>Login</Button>
-        <Link prefetch href='/register'><Button style={styles.button} >Register</Button></Link>
+        <Button
+          style={styles.button}
+          onClick={this.login}
+          type={Button.TYPE.PRIMARY}
+        >
+          Login
+        </Button>
+        <Link prefetch href='/register'>
+          <Button style={styles.button} >Register</Button>
+        </Link>
       </div>
     )
   }

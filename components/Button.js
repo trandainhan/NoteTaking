@@ -4,8 +4,8 @@ import { omit } from 'lodash/fp'
 
 class Button extends Component {
   render () {
-    const { className } = this.props
-    const clazzName = classNames('btn', 'btn-primary', className)
+    const { className, type = 'default' } = this.props
+    const clazzName = classNames('btn', `btn-${type}`, className)
     const props = omit(['className'], this.props)
     return (
       <button
@@ -17,6 +17,14 @@ class Button extends Component {
       </button>
     )
   }
+}
+
+Button.TYPE = {
+  DEFAULT: 'default',
+  PRIMARY: 'primary',
+  INFO: 'info',
+  WARNING: 'warning',
+  DANGER: 'danger'
 }
 
 export default Button

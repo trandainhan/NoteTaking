@@ -9,10 +9,10 @@ import Button from './Button'
 const TopBar = ({handler}) => (
   <div style={styles.topBar} >
     <Link prefetch href='/newbook'>
-      <Button style={styles.addNewNoteBook}>Add New Note Book</Button>
+      <Button style={styles.addNewNoteBook} type={Button.TYPE.PRIMARY}>Add New Note Book</Button>
     </Link>
     <Link prefetch href='/newnote'>
-      <Button className='btn btn-primary'>Add New Note</Button>
+      <Button type={Button.TYPE.PRIMARY}>Add New Note</Button>
     </Link>
   </div>
 )

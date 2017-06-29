@@ -63,8 +63,16 @@ class NewNoteBook extends Component {
           <label htmlFor="pwd">Confirm Password:</label>
           <Input type="password" value={confirmPassword} onChange={this.changeConfirmPassword} />
         </div>
-        <Button style={styles.button} onClick={this.register}>Register</Button>
-        <Link prefetch href='/login'><Button style={styles.button}>Login</Button></Link>
+        <Button
+          style={styles.button}
+          onClick={this.register}
+          type={Button.TYPE.PRIMARY}
+        >
+          Register
+        </Button>
+        <Link prefetch href='/login'>
+          <Button style={styles.button}>Login</Button>
+        </Link>
       </div>
     )
   }
