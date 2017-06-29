@@ -18,6 +18,7 @@ class NewNoteBook extends Component {
     this.changeUsername = e => this._changeUsername(e.target.value)
     this.changePassword = e => this._changePassword(e.target.value)
     this.changeConfirmPassword = e => this._changeConfirmPassword(e.target.value)
+    this.handleKeyPress = e => this._handleKeyPress(e.key)
     this.register = e => this._register()
   }
   _changeUsername (value) {
@@ -34,6 +35,11 @@ class NewNoteBook extends Component {
     this.setState({
       confirmPassword: value
     })
+  }
+  _handleKeyPress (key) {
+    if (key === 'Enter') {
+      this._register()
+    }
   }
   async _register () {
     const { username, password, confirmPassword } = this.state
@@ -61,12 +67,18 @@ class NewNoteBook extends Component {
         </div>
         <div className="form-group">
           <label htmlFor="pwd">Confirm Password:</label>
-          <Input type="password" value={confirmPassword} onChange={this.changeConfirmPassword} />
+          <Input
+            type="password"
+            value={confirmPassword}
+            onChange={this.changeConfirmPassword}
+            onKeyPress={this.handleKeyPress}
+          />
         </div>
         <Button
           style={styles.button}
           onClick={this.register}
           type={Button.TYPE.PRIMARY}
+          size={Button.SIZE.LARGE}
         >
           Register
         </Button>
