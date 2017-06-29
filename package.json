@@ -27,6 +27,7 @@
     "nodemon": "^1.11.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-loader": "^2.4.2",
     "react-redux": "^5.0.5",
     "react-select": "^1.0.0-rc.5",
     "recompose": "^0.23.4",
