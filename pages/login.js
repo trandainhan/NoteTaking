@@ -36,6 +36,7 @@ class NewNoteBook extends Component {
     const res = await fetch.post('/authenticate', this.state)
     if (res.status === 200) {
       setCookie('x-access-token', res.data.token)
+      setCookie('username', username)
       Router.push({
         pathname: '/'
       })

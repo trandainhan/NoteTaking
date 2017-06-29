@@ -9,6 +9,7 @@ import Select from 'react-select'
 import Editor from '../components/Editor'
 import Header from '../components/Header'
 import Input from '../components/Input'
+import NavBar from '../components/NavBar'
 
 import { addNewNote, updateNote } from '../action/Note'
 
@@ -68,38 +69,41 @@ class NewNote extends Component {
   render () {
     const { noteBooks, selectedNoteBookId, title, content } = this.state
     return (
-      <div style={styles.newNote} >
-        <Header />
-        <Head>
-          <link rel="stylesheet" href="/static/css/react-select.css" />
-        </Head>
-        <Link href='/'><a className='btn btn-primary marginBottom'>Back</a></Link>
-        <Select
-          className='marginBottom'
-          name="form-field-name"
-          options={noteBooks}
-          value={selectedNoteBookId}
-          onChange={this.updateSelectedNoteBook}
-        />
-        <Input
-          className='marginBottom'
-          value={title}
-          onChange={this.updateTitle}
-          placeholder='Your Note title here...'
-        />
-        <Editor
-          className='marginBottom'
-          editorState={content}
-          onChange={this.updateNoteContent}
-          placeholder='Note content here...'
-        />
-        <button
-          style={styles.save}
-          onClick={this.saveNote}
-          className='form-control'>
-          Save
-        </button>
-      </div>
+      <div>
+        <NavBar />
+        <div style={styles.newNote} >
+          <Header />
+          <Head>
+            <link rel="stylesheet" href="/static/css/react-select.css" />
+          </Head>
+          <Link href='/'><a className='btn btn-primary marginBottom'>Back</a></Link>
+          <Select
+            className='marginBottom'
+            name="form-field-name"
+            options={noteBooks}
+            value={selectedNoteBookId}
+            onChange={this.updateSelectedNoteBook}
+          />
+          <Input
+            className='marginBottom'
+            value={title}
+            onChange={this.updateTitle}
+            placeholder='Your Note title here...'
+          />
+          <Editor
+            className='marginBottom'
+            editorState={content}
+            onChange={this.updateNoteContent}
+            placeholder='Note content here...'
+          />
+          <button
+            style={styles.save}
+            onClick={this.saveNote}
+            className='form-control'>
+            Save
+          </button>
+        </div>
+      </div>  
     )
   }
 }

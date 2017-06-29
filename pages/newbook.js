@@ -5,6 +5,7 @@ import fetch from '../api/Fetch';
 import Header from '../components/Header'
 import Input from '../components/Input'
 import NoteBook from '../models/NoteBook'
+import NavBar from '../components/NavBar'
 
 class NewNoteBook extends Component {
   constructor (props) {
@@ -34,16 +35,19 @@ class NewNoteBook extends Component {
   render () {
     const { title } = this.state.noteBook || {}
     return (
-      <div style={styles.newBook}>
+      <div>
         <Header />
-        <Link href='/'><a style={styles.back} className='btn btn-primary'>Back</a></Link>
-        <Input
-          style={styles.title}
-          value={title}
-          onChange={this.handleChange}
-          placeholder='Your NoteBook title here...'
-        />
-        <button onClick={this.saveNoteBook} className='form-control'>Save</button>
+        <NavBar />
+        <div style={styles.newBook}>
+          <Link href='/'><a style={styles.back} className='btn btn-primary'>Back</a></Link>
+          <Input
+            style={styles.title}
+            value={title}
+            onChange={this.handleChange}
+            placeholder='Your NoteBook title here...'
+          />
+          <button onClick={this.saveNoteBook} className='form-control'>Save</button>
+        </div>
       </div>
     )
   }

@@ -12,12 +12,12 @@ const unless = (paths, middleware) => {
           return path === req.path || req.path.includes(path)
         }, paths)
         if (isHave) {
-          return next();
+          return next()
         } else {
-            return middleware(req, res, next);
+            return middleware(req, res, next)
         }
-    };
-};
+    }
+}
 
 export default (server) => {
   router.route('/').post(verify)

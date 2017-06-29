@@ -10,6 +10,7 @@ import List from '../components/List'
 import Header from '../components/Header'
 import TopBar from '../components/TopBar'
 import SearchBox from '../components/SearchBox'
+import NavBar from '../components/NavBar'
 
 import NotePreview from '../container/NotePreview'
 import NoteBook from '../container/NoteBook'
@@ -33,25 +34,28 @@ class Note extends Component {
       onResetSearchKey
     } = this.props
     return (
-      <div style={styles.indexPage}>
+      <div>
         <Header />
-        <TopBar />
-        <SplitView leftWidth={'30%'} rightWidth={'70%'}>
-          <List className='padding'>
-            <SearchBox
-              className='marginBottom'
-              value={searchKey}
-              onChange={handleChangeSearchKey}
-              onResetSearchKey={onResetSearchKey}
-            />
-            {
-              isEmpty(noteBooks) ? "No NoteBook!!!" : values(noteBooks).map((noteBook) => (
-                <NoteBook key={noteBook.id} noteBook={noteBook} />
-              ))
-            }
-          </List>
-          <NoteView note={selectedNote} className='padding' />
-        </SplitView>
+        <NavBar />
+        <div style={styles.indexPage}>
+          <TopBar />
+          <SplitView leftWidth={'30%'} rightWidth={'70%'}>
+            <List className='padding'>
+              <SearchBox
+                className='marginBottom'
+                value={searchKey}
+                onChange={handleChangeSearchKey}
+                onResetSearchKey={onResetSearchKey}
+              />
+              {
+                isEmpty(noteBooks) ? "No NoteBook!!!" : values(noteBooks).map((noteBook) => (
+                  <NoteBook key={noteBook.id} noteBook={noteBook} />
+                ))
+              }
+            </List>
+            <NoteView note={selectedNote} className='padding' />
+          </SplitView>
+        </div>
       </div>
     )
   }
