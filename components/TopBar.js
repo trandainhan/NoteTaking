@@ -6,13 +6,13 @@ import { addNewNote } from '../action/Note'
 
 import Button from './Button'
 
-const TopBar = ({handler}) => (
+const TopBar = ({handler, disabledNewNote}) => (
   <div style={styles.topBar} >
     <Link prefetch href='/newbook'>
       <Button style={styles.addNewNoteBook} type={Button.TYPE.PRIMARY}>Add New Note Book</Button>
     </Link>
     <Link prefetch href='/newnote'>
-      <Button type={Button.TYPE.PRIMARY}>Add New Note</Button>
+      <Button disabled={disabledNewNote} type={Button.TYPE.PRIMARY}>Add New Note</Button>
     </Link>
   </div>
 )

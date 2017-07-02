@@ -33,12 +33,13 @@ class Note extends Component {
       handleChangeSearchKey,
       onResetSearchKey
     } = this.props
+    const disabledNewNote = values(noteBooks).length === 0
     return (
       <div>
         <Header />
         <NavBar />
         <div style={styles.indexPage}>
-          <TopBar />
+          <TopBar disabledNewNote={disabledNewNote} />
           <SplitView leftWidth={'30%'} rightWidth={'70%'}>
             <List className='padding'>
               <SearchBox
