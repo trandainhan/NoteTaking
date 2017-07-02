@@ -103,7 +103,7 @@ class NewNote extends Component {
             Save
           </button>
         </div>
-      </div>  
+      </div>
     )
   }
 }

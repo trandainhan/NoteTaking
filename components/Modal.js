@@ -108,8 +108,8 @@ Body.displayName = 'Modal.Body'
 
 const Footer = ({onClose, onSave, children}) => (
   <div className="modal-footer">
-    <Button onClick={onClose}>Close</Button>
-    <Button onClick={onSave}>Save changes</Button>
+    <Button onClick={onClose}>Cancel</Button>
+    <Button onClick={onSave}>Ok</Button>
     {children}
   </div>
 )

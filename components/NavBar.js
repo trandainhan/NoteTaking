@@ -13,6 +13,7 @@ class NavBar extends Component {
   _logout () {
     setCookie('username', '')
     setCookie('x-access-token', '')
+    setCookie('userId', '')
     Router.push({
       pathname: '/login'
     })

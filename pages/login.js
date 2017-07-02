@@ -54,6 +54,7 @@ class NewNoteBook extends Component {
       if (res.data.success) {
         setCookie('x-access-token', res.data.token)
         setCookie('username', username)
+        setCookie('userId', res.data.user._id)
         Router.push({
           pathname: '/'
         })
