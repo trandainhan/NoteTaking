@@ -3,10 +3,14 @@ import Link from 'next/link'
 import Router from 'next/router'
 import fetch from '../api/Fetch'
 
+import Validator from '../hoc/Validator'
+
 import Header from '../components/Header'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import Loader from '../components/Loader'
+
+const ValidateInput = Validator(Input)
 
 class NewNoteBook extends Component {
   constructor (props) {
@@ -15,7 +19,9 @@ class NewNoteBook extends Component {
       username: '',
       password: '',
       confirmPassword: '',
-      isLoading: false
+      isLoading: false,
+      passwordErrorMsg: '',
+      userErrorMsg: ''
     }
     this.changeUsername = e => this._changeUsername(e.target.value)
     this.changePassword = e => this._changePassword(e.target.value)
@@ -44,43 +50,89 @@ class NewNoteBook extends Component {
     }
   }
   async _register () {
+    this._resetErrorMessage()
     const { username, password, confirmPassword } = this.state
-    if (password !== confirmPassword) return
+    if (password !== confirmPassword) {
+      this._setPasswordErrorMessage('Password must be the same.')
+      return
+    }
     if (!username || !password) return
     this.setState({
       isLoading: true
     })
-    const res = await fetch.post('/user/register', this.state)
-    this.setState({
-      isLoading: false
-    })
-    if (res.data.success) {
-      Router.push({
-        pathname: '/login'
+    try {
+      const res = await fetch.post('/user/register', this.state)
+      if (res.data.success) {
+        Router.push({
+          pathname: '/login'
+        })
+      }
+    } catch (error) {
+      this._setUserErrorMessage(error.response.data.message)
+      this.setState({
+        isLoading: false
       })
     }
   }
+  _setPasswordErrorMessage(msg) {
+    this.setState({
+      passwordErrorMsg: msg
+    })
+  }
+  _setUserErrorMessage(msg) {
+    this.setState({
+      userErrorMsg: msg
+    })
+  }
+  _resetErrorMessage () {
+    this.setState({
+      passwordErrorMsg: '',
+      userErrorMsg: ''
+    })
+  }
   render () {
-    const { username, password, confirmPassword, isLoading } = this.state
+    const {
+      username,
+      password,
+      confirmPassword,
+      isLoading,
+      passwordErrorMsg,
+      userErrorMsg
+    } = this.state
+    const registable = username && password && confirmPassword
     return (
       <Loader loaded={!isLoading}>
         <div style={styles.login}>
           <Header />
           <div className="form-group">
             <label htmlFor="username">Username:</label>
-            <Input type="text" value={username} onChange={this.changeUsername} />
+            <ValidateInput
+              required
+              type="text"
+              value={username}
+              onChange={this.changeUsername}
+              errorMessage={userErrorMsg}
+            />
           </div>
           <div className="form-group">
             <label htmlFor="pwd">Password:</label>
-            <Input type="password" value={password} onChange={this.changePassword} />
+            <ValidateInput
+              required
+              type="password"
+              value={password}
+              onChange={this.changePassword}
+              errorMessage={passwordErrorMsg}
+            />
           </div>
           <div className="form-group">
             <label htmlFor="pwd">Confirm Password:</label>
-            <Input
+            <ValidateInput
+              required
               type="password"
               value={confirmPassword}
               onChange={this.changeConfirmPassword}
               onKeyPress={this.handleKeyPress}
+              errorMessage={passwordErrorMsg}
             />
           </div>
           <Button
@@ -88,6 +140,7 @@ class NewNoteBook extends Component {
             onClick={this.register}
             type={Button.TYPE.PRIMARY}
             size={Button.SIZE.LARGE}
+            disabled={!registable}
           >
             Register
           </Button>

@@ -11,6 +11,7 @@ export const registerUser = (req, res) => {
     return User.find({username: username}, (err, user) => {
       if (user.length) {
         return res.status(400).json({
+          success: false,
           message: 'Username already exists'
         })
       }
@@ -20,6 +21,7 @@ export const registerUser = (req, res) => {
       })
       return newUser.save().then((result) => {
         res.status(201).json({
+          success: true,
           message: "Successfully created user",
           data: result.toJSON()
         })

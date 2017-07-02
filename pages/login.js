@@ -3,10 +3,14 @@ import Link from 'next/link'
 import Router from 'next/router'
 import fetch from '../api/Fetch'
 
+import Validator from '../hoc/Validator'
+
 import Header from '../components/Header'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import Loader from '../components/Loader'
+
+const ValidateInput = Validator(Input)
 
 import { setCookie } from '../utils/CookieUtils'
 
@@ -16,7 +20,8 @@ class NewNoteBook extends Component {
     this.state = {
       username: '',
       password: '',
-      isLoading: false
+      isLoading: false,
+      errorMessage: ''
     }
     this.changeUsername = e => this._changeUsername(e.target.value)
     this.changePassword = e => this._changePassword(e.target.value)
@@ -44,39 +49,48 @@ class NewNoteBook extends Component {
     this.setState({
       isLoading: true
     })
-    const res = await fetch.post('/authenticate', this.state)
-    if (res.status === 200) {
-      setCookie('x-access-token', res.data.token)
-      setCookie('username', username)
-      Router.push({
-        pathname: '/'
+    try {
+      const res = await fetch.post('/authenticate', this.state)
+      if (res.data.success) {
+        setCookie('x-access-token', res.data.token)
+        setCookie('username', username)
+        Router.push({
+          pathname: '/'
+        })
+      }
+    } catch (error) {
+      this.setState({
+        errorMessage: error.response.data.message,
+        isLoading: false
       })
     }
-    this.setState({
-      isLoading: false
-    })
   }
   render () {
-    const { username, password, isLoading } = this.state
+    const { username, password, isLoading, errorMessage } = this.state
+    const loginable = username && password
     return (
       <Loader loaded={!isLoading}>
         <div style={styles.login}>
           <Header />
           <div className="form-group">
             <label htmlFor="username">Username:</label>
-            <Input
+            <ValidateInput
               type="text"
               value={username}
               onChange={this.changeUsername}
+              required
+              errorMessage={errorMessage}
             />
           </div>
           <div className="form-group">
             <label htmlFor="pwd">Password:</label>
-            <Input
+            <ValidateInput
               type="password"
               value={password}
               onChange={this.changePassword}
               onKeyPress={this.handleKeyPress}
+              required
+              errorMessage={errorMessage}
             />
           </div>
           <Button
@@ -84,6 +98,7 @@ class NewNoteBook extends Component {
             onClick={this.login}
             type={Button.TYPE.PRIMARY}
             size={Button.SIZE.LARGE}
+            disabled={!loginable}
           >
             Login
           </Button>
