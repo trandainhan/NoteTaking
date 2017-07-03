@@ -74,7 +74,7 @@ const getSelectedNote = (state, noteId) => {
 
 const isNotesContainSearchKey = (notes, searchKey) => {
   return some((note) => {
-    return note.title.includes(searchKey)
+    return note.title.toLowerCase().includes(searchKey.toLowerCase())
   }, notes)
 }
 
@@ -83,7 +83,7 @@ const getNoteBookBySearchKey = (state, searchKey) => {
   if (!searchKey) return noteBooks
   return filter((noteBook) => {
     return (
-      noteBook.title.includes(searchKey)
+      noteBook.title.toLowerCase().includes(searchKey.toLowerCase())
       || isNotesContainSearchKey(pick(noteBook.notes, notes), searchKey)
     )
   }, noteBooks)
