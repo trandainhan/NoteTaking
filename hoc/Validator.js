@@ -45,10 +45,11 @@ const Validator = (Com) => class ValidateCom extends Component {
   }
   render () {
     const { errorMessage } = this.state
+    const { containerClassName } = this.props
     const hasError = !!errorMessage
-    const clazzName = classNames({'has-error': hasError})
+    const clazzName = classNames({'has-error': hasError}, containerClassName)
     const componentProps = omit(
-      ['onChange', 'onKeyPress', 'onBlur', 'errorMessage'], this.props
+      ['onChange', 'onKeyPress', 'onBlur', 'errorMessage', 'containerClassName'], this.props
     )
     return (
       <div className={clazzName}>
