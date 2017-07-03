@@ -31,7 +31,7 @@ const Validator = (Com) => class ValidateCom extends Component {
     const { onBlur, required } = this.props
     if (required && e.target.value === '') {
       this.setState({
-        errorMessage: 'This field is requried.'
+        errorMessage: 'This field is required.'
       })
     }
     onBlur && onBlur(e)

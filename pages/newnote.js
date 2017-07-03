@@ -6,10 +6,14 @@ import { EditorState, convertToRaw } from 'draft-js'
 import fetch from '../api/Fetch';
 import Select from 'react-select'
 
+import Validator from '../hoc/Validator'
+
 import Editor from '../components/Editor'
 import Header from '../components/Header'
 import Input from '../components/Input'
 import NavBar from '../components/NavBar'
+
+const ValidateInput = Validator(Input)
 
 import { addNewNote, updateNote } from '../action/Note'
 
@@ -84,8 +88,9 @@ class NewNote extends Component {
             value={selectedNoteBookId}
             onChange={this.updateSelectedNoteBook}
           />
-          <Input
-            className='marginBottom'
+          <ValidateInput
+            required
+            containerClassName='marginBottom'
             value={title}
             onChange={this.updateTitle}
             placeholder='Your Note title here...'
