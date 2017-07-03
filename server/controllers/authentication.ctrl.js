@@ -39,11 +39,7 @@ export const authenMiddleware = (req, res, next) => {
   if (token) {
     jwt.verify(token, jwtSecret, (err, decoded) => {
       if (err) {
-        return res.status(403).json({
-          success: false,
-          message: 'Failed to authenticate token.'
-        });
-
+        res.redirect('/login');
       } else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;
