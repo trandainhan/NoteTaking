@@ -1,3 +1,5 @@
+# [Try it out](http://ec2-13-59-16-121.us-east-2.compute.amazonaws.com/)
+
 # NoteTaking
 
 The project is to build an Note Taking application
